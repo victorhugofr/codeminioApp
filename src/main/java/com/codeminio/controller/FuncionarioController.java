@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,12 +18,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.codeminio.dominio.Funcionario;
 import com.codeminio.exceptions.ErroAutenticacao;
 import com.codeminio.exceptions.RegraNegocioException;
 import com.codeminio.service.impl.FuncionarioServiceImpl;
+
+import com.codeminio.helper.MensagemHelper;
+import com.codeminio.enums.CodigoMensagem;
 
 
 @Controller /* Arquitetura REST */
@@ -31,6 +36,9 @@ public class FuncionarioController {
 
 	@Autowired
 	private FuncionarioServiceImpl service;
+	
+	@Autowired
+	protected MensagemHelper mensagemHelper;
 
 
 	@GetMapping(value = "/listar")
@@ -43,15 +51,16 @@ public class FuncionarioController {
 	}
 
 	@PostMapping("/salvar")
-	public String cadastrar(Funcionario Funcionario) {
+	public ModelAndView cadastrar(Funcionario Funcionario,  BindingResult br, RedirectAttributes ra) {
 		ModelAndView modelAndView = null;
 		try {
 			service.salvarFuncionario(Funcionario);
 			modelAndView = new ModelAndView(new RedirectView("index", true));
 		} catch (RegraNegocioException e) {
-			return "index";
+			return modelAndView;
 		}
-		return "index";
+		modelAndView = new ModelAndView(new RedirectView("/sistema/index", true));
+		return modelAndView;
 	}
 	
 	@GetMapping(value = "/form")
