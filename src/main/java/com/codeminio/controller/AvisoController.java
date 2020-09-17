@@ -8,78 +8,90 @@ import com.codeminio.service.AvisoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/sistema/aviso")
 public class AvisoController {
 
   @Autowired
-  private AvisoService service;
+  private AvisoService avisoService;
 
-  @GetMapping(value = "/aviso")
-  public ResponseEntity<List<Aviso>> index() {
+  @GetMapping(value = "/create")
+  public String create(Model model) {
 
-    List<Aviso> avisos = service.index();
+    Aviso aviso = new Aviso();
+    model.addAttribute("aviso", aviso);
 
-    return new ResponseEntity<List<Aviso>>(avisos, HttpStatus.OK);
+    return "aviso/create";
   }
 
-  @GetMapping(value = "/aviso/{idAviso}")
-  public ResponseEntity<Aviso> show(@PathVariable(value = "idAviso") Integer idAviso) {
+  // @GetMapping(value = "/aviso")
+  // public ResponseEntity<List<Aviso>> index() {
 
-    Aviso aviso = service.show(idAviso);
+  //   List<Aviso> avisos = service.index();
 
-    return new ResponseEntity<Aviso>(aviso, HttpStatus.OK);
-  }
+  //   return new ResponseEntity<List<Aviso>>(avisos, HttpStatus.OK);
+  // }
 
-  @GetMapping(value = "/funcionario/{idFuncionario}/aviso")
-  public ResponseEntity<List<Aviso>> index(@PathVariable(value = "idFuncionario") Integer idFuncionario) {
+  // @GetMapping(value = "/aviso/{idAviso}")
+  // public ResponseEntity<Aviso> show(@PathVariable(value = "idAviso") Integer idAviso) {
 
-    List<Aviso> avisos = service.index(idFuncionario);
+  //   Aviso aviso = service.show(idAviso);
 
-    return new ResponseEntity<List<Aviso>>(avisos, HttpStatus.OK);
-  }
+  //   return new ResponseEntity<Aviso>(aviso, HttpStatus.OK);
+  // }
 
-  @GetMapping(value = "/funcionario/{idFuncionario}/aviso/{idAviso}")
-  public ResponseEntity<Aviso> show(@PathVariable(value = "idFuncionario") Integer idFuncionario,
-      @PathVariable(value = "idAviso") Integer idAviso) {
+  // @GetMapping(value = "/funcionario/{idFuncionario}/aviso")
+  // public ResponseEntity<List<Aviso>> index(@PathVariable(value = "idFuncionario") Integer idFuncionario) {
 
-    Aviso aviso = service.show(idFuncionario, idAviso);
+  //   List<Aviso> avisos = service.index(idFuncionario);
 
-    return new ResponseEntity<Aviso>(aviso, HttpStatus.OK);
-  }
+  //   return new ResponseEntity<List<Aviso>>(avisos, HttpStatus.OK);
+  // }
 
-  @PostMapping(value = "/funcionario/{idFuncionario}/aviso")
-  public ResponseEntity<Aviso> store(@PathVariable(value = "idFuncionario") Integer idFuncionario,
-      @RequestBody Aviso aviso) {
+  // @GetMapping(value = "/funcionario/{idFuncionario}/aviso/{idAviso}")
+  // public ResponseEntity<Aviso> show(@PathVariable(value = "idFuncionario") Integer idFuncionario,
+  //     @PathVariable(value = "idAviso") Integer idAviso) {
 
-    Aviso novoAviso = service.store(idFuncionario, aviso);
+  //   Aviso aviso = service.show(idFuncionario, idAviso);
 
-    return new ResponseEntity<Aviso>(novoAviso, HttpStatus.CREATED);
-  }
+  //   return new ResponseEntity<Aviso>(aviso, HttpStatus.OK);
+  // }
 
-  @PutMapping(value = "/funcionario/{idFuncionario}/aviso/{idAviso}")
-  public ResponseEntity<Aviso> update(@PathVariable(value = "idFuncionario") Integer idFuncionario,
-      @PathVariable(value = "idAviso") Integer idAviso, @RequestBody Aviso aviso) {
+  // @PostMapping(value = "/funcionario/{idFuncionario}/aviso")
+  // public ResponseEntity<Aviso> store(@PathVariable(value = "idFuncionario") Integer idFuncionario,
+  //     @RequestBody Aviso aviso) {
 
-    Aviso novoAviso = service.update(idFuncionario, idAviso, aviso);
+  //   Aviso novoAviso = service.store(idFuncionario, aviso);
 
-    return new ResponseEntity<Aviso>(novoAviso, HttpStatus.OK);
-  }
+  //   return new ResponseEntity<Aviso>(novoAviso, HttpStatus.CREATED);
+  // }
 
-  @DeleteMapping(value = "/funcionario/{idFuncionario}/aviso/{idAviso}")
-  public ResponseEntity<String> delete(@PathVariable(value = "idFuncionario") Integer idFuncionario,
-      @PathVariable(value = "idAviso") Integer idAviso) {
+  // @PutMapping(value = "/funcionario/{idFuncionario}/aviso/{idAviso}")
+  // public ResponseEntity<Aviso> update(@PathVariable(value = "idFuncionario") Integer idFuncionario,
+  //     @PathVariable(value = "idAviso") Integer idAviso, @RequestBody Aviso aviso) {
 
-    service.delete(idFuncionario, idAviso);
+  //   Aviso novoAviso = service.update(idFuncionario, idAviso, aviso);
 
-    return new ResponseEntity<String>("Aviso excluído com sucesso", HttpStatus.OK);
-  }
+  //   return new ResponseEntity<Aviso>(novoAviso, HttpStatus.OK);
+  // }
+
+  // @DeleteMapping(value = "/funcionario/{idFuncionario}/aviso/{idAviso}")
+  // public ResponseEntity<String> delete(@PathVariable(value = "idFuncionario") Integer idFuncionario,
+  //     @PathVariable(value = "idAviso") Integer idAviso) {
+
+  //   service.delete(idFuncionario, idAviso);
+
+  //   return new ResponseEntity<String>("Aviso excluído com sucesso", HttpStatus.OK);
+  // }
 
 }
