@@ -19,21 +19,15 @@ public class Aviso extends AuditedEntity{
 
   @Id
   @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_AVISO")
-  @SequenceGenerator(name="SEQ_AVISO", sequenceName="codeminio.id_seq_aviso", allocationSize=1)
+  @SequenceGenerator(name="SEQ_AVISO", sequenceName="id_seq_aviso", allocationSize=1)
   private Integer id;
-
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date dataCriacao;
-
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date dataAtualizacao;
 
   @Column(columnDefinition = "TEXT")
   private String texto;
 
   @ManyToOne
-  @JoinColumn(name="id_funcionario")
-  private Funcionario autor;
+  @JoinColumn(name="id_usuario")
+  private Usuario autor;
 
 public Integer getId() {
 	return id;
@@ -41,22 +35,6 @@ public Integer getId() {
 
 public void setId(Integer id) {
 	this.id = id;
-}
-
-public Date getDataCriacao() {
-	return dataCriacao;
-}
-
-public void setDataCriacao(Date dataCriacao) {
-	this.dataCriacao = dataCriacao;
-}
-
-public Date getDataAtualizacao() {
-	return dataAtualizacao;
-}
-
-public void setDataAtualizacao(Date dataAtualizacao) {
-	this.dataAtualizacao = dataAtualizacao;
 }
 
 public String getTexto() {
@@ -67,11 +45,11 @@ public void setTexto(String texto) {
 	this.texto = texto;
 }
 
-public Funcionario getAutor() {
+public Usuario getAutor() {
 	return autor;
 }
 
-public void setAutor(Funcionario autor) {
+public void setAutor(Usuario autor) {
 	this.autor = autor;
 }
   

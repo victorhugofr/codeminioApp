@@ -5,18 +5,19 @@ import java.util.List;
 import com.codeminio.dominio.Aviso;
 
 public interface AvisoService {
-  List<Aviso> index();
 
-  Aviso show(Integer idAviso);
+  void store(String username, Aviso aviso);
 
-  List<Aviso> index(Integer idFuncionario);
+  // List<Aviso> index();
 
-  Aviso show(Integer idFuncionario, Integer idAviso);
+  // Aviso show(Integer idAviso);
 
-  Aviso store(Integer idFuncionario, Aviso aviso);
+  // List<Aviso> index(Integer idFuncionario);
 
-  Aviso update(Integer idFuncionario, Integer idAviso, Aviso aviso);
+  // Aviso show(Integer idFuncionario, Integer idAviso);
 
-  Aviso delete(Integer idFuncionario, Integer idAviso);
+  // Aviso update(Integer idFuncionario, Integer idAviso, Aviso aviso);
+
+  // Aviso delete(Integer idFuncionario, Integer idAviso);
 
 }

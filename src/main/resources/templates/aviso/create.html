@@ -6,42 +6,27 @@
 <title>Cadastrar funcion�rio</title>
 <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
 <link rel="stylesheet" th:href="@{/assets/menusistema.css}">
+<script src="https://cdn.ckeditor.com/ckeditor5/22.0.0/classic/ckeditor.js"></script>
 </head>
 <body>
 <header th:insert="fragments/menu.html :: header"> </header>
 <div class="container" style="background-color: #f4f4f4;padding: 10px;border-radius: 10px;width: 70%;overflow: hidden;">
-	<form th:action="@{/sistema/funcionario/salvar}" method="post" th:object="${funcionario}" sec:authorize="hasRole('ROLE_ADMIN')">
+	<form th:action="@{/sistema/aviso}" method="post" th:object="${aviso}">
 		<div class="form-row">
 			<div class="form-group col-md-12">
-			    <label>Nome</label>
-				<input name="nome" th:field="*{usuario.nome}" class="form-control" th:value="*{usuario.nome}" >
-			</div>
-		</div>
-		<div class="form-row">
-			<div class="form-group col-md-6">
-			    <label>CPF</label>
-				<input name="cpf" th:field="*{usuario.cpf}" class="form-control" th:value="*{usuario.cpf}" >
-			</div>
-			<div class="form-group col-md-6">
-			    <label>Email</label>
-				<input name="email" th:field="*{usuario.email}" class="form-control" th:value="*{usuario.email}" >
-			</div>
-		</div>
-		<div class="form-row">
-			<div class="form-group col-md-6">
-			    <label>Login</label>
-				<input name="login" th:field="*{usuario.login}" class="form-control" th:value="*{usuario.login}" >
-			</div>
-			<div class="form-group col-md-6">
-				<label>Senha</label>
-				<input name="senha" th:field="*{usuario.senha}" class="form-control" th:value="*{usuario.senha}">
+			    <label>Texto do aviso</label>
+				<textarea id="editor" type="text" name="texto" th:field="*{texto}" class="form-control" th:value="*{texto}" ></textarea>
 			</div>
 		</div>
 	  	<button type="submit" class="btn btn-primary float-right" style="background-color:#2d9239;border-color:#2d9239" >Cadastrar</button>
 	</form>
 </div>	
 <script>
-
+    ClassicEditor
+        .create( document.querySelector( '#editor' ) )
+        .catch( error => {
+            console.error( error );
+        } );
 </script>
 </body>
 </html>
