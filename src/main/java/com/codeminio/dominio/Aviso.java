@@ -1,7 +1,5 @@
 package com.codeminio.dominio;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,47 +8,55 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 
 @Entity
-public class Aviso extends AuditedEntity{
+public class Aviso extends AuditedEntity {
 
   @Id
-  @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_AVISO")
-  @SequenceGenerator(name="SEQ_AVISO", sequenceName="id_seq_aviso", allocationSize=1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_AVISO")
+  @SequenceGenerator(name = "SEQ_AVISO", sequenceName = "id_seq_aviso", allocationSize = 1)
   private Integer id;
+
+  @Column()
+  private String titulo;
 
   @Column(columnDefinition = "TEXT")
   private String texto;
 
   @ManyToOne
-  @JoinColumn(name="id_usuario")
+  @JoinColumn(name = "id_usuario")
   private Usuario autor;
 
-public Integer getId() {
-	return id;
-}
+  public Integer getId() {
+    return id;
+  }
 
-public void setId(Integer id) {
-	this.id = id;
-}
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-public String getTexto() {
-	return texto;
-}
+  public String getTitulo() {
+    return this.titulo;
+  }
 
-public void setTexto(String texto) {
-	this.texto = texto;
-}
+  public void setTitulo(String titulo) {
+    this.titulo = titulo;
+  }
 
-public Usuario getAutor() {
-	return autor;
-}
+  public String getTexto() {
+    return texto;
+  }
 
-public void setAutor(Usuario autor) {
-	this.autor = autor;
-}
-  
+  public void setTexto(String texto) {
+    this.texto = texto;
+  }
+
+  public Usuario getAutor() {
+    return autor;
+  }
+
+  public void setAutor(Usuario autor) {
+    this.autor = autor;
+  }
+
 }
