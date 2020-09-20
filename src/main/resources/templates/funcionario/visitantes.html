@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="ISO-8859-1">
+<title>Cadastrar Visitantes</title>
+<link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/assets/menusistema.css}">
+</head>
+<body>
+<header th:insert="fragments/menu.html :: header"> </header>
+<div class="container" style="background-color: #f4f4f4;padding: 10px;border-radius: 10px;width: 70%;overflow: hidden;">
+	<form th:action="@{/sistema/morador/salvar}" method="post" th:object="${visita}" sec:authorize="hasRole('ROLE_ADMIN')">
+		<div class="form-row">
+			<div class="form-group col-md-12">
+			    <label>Nome</label>
+				<input name="nome" th:field="*{usuario.nome}" class="form-control" th:value="*{usuario.nome}" >
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-group col-md-12">
+			    <label>RG</label>
+				<input name="nome" th:field="*{usuario.nome}" class="form-control" th:value="*{usuario.nome}" >
+			</div>
+		</div>
+	  	<button type="submit" class="btn btn-primary float-right" style="background-color:#2d9239;border-color:#2d9239" >Cadastrar</button>
+	</form>
+</div>	
+<script>
+
+</script>
+</body>
+</html>
