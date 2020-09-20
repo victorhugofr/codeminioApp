@@ -1,7 +1,5 @@
 package com.codeminio.dominio;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,69 +8,55 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 
 @Entity
-public class Aviso extends AuditedEntity{
+public class Aviso extends AuditedEntity {
 
   @Id
-  @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_AVISO")
-  @SequenceGenerator(name="SEQ_AVISO", sequenceName="codeminio.id_seq_aviso", allocationSize=1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_AVISO")
+  @SequenceGenerator(name = "SEQ_AVISO", sequenceName = "id_seq_aviso", allocationSize = 1)
   private Integer id;
 
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date dataCriacao;
-
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date dataAtualizacao;
+  @Column()
+  private String titulo;
 
   @Column(columnDefinition = "TEXT")
   private String texto;
 
   @ManyToOne
-  @JoinColumn(name="id_funcionario")
-  private Funcionario autor;
+  @JoinColumn(name = "id_usuario")
+  private Usuario autor;
 
-public Integer getId() {
-	return id;
-}
+  public Integer getId() {
+    return id;
+  }
 
-public void setId(Integer id) {
-	this.id = id;
-}
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-public Date getDataCriacao() {
-	return dataCriacao;
-}
+  public String getTitulo() {
+    return this.titulo;
+  }
 
-public void setDataCriacao(Date dataCriacao) {
-	this.dataCriacao = dataCriacao;
-}
+  public void setTitulo(String titulo) {
+    this.titulo = titulo;
+  }
 
-public Date getDataAtualizacao() {
-	return dataAtualizacao;
-}
+  public String getTexto() {
+    return texto;
+  }
 
-public void setDataAtualizacao(Date dataAtualizacao) {
-	this.dataAtualizacao = dataAtualizacao;
-}
+  public void setTexto(String texto) {
+    this.texto = texto;
+  }
 
-public String getTexto() {
-	return texto;
-}
+  public Usuario getAutor() {
+    return autor;
+  }
 
-public void setTexto(String texto) {
-	this.texto = texto;
-}
+  public void setAutor(Usuario autor) {
+    this.autor = autor;
+  }
 
-public Funcionario getAutor() {
-	return autor;
-}
-
-public void setAutor(Funcionario autor) {
-	this.autor = autor;
-}
-  
 }

@@ -1,66 +1,80 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-<meta charset="UTF-8">
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<title>Insert title here</title>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Insert title here</title>
 
 </head>
+
 <body>
-<div th:fragment="header">
-    <header>
-        <!-- Header Start -->
-        <div class="header-area">
-            <div class="main-header ">
-                <div class="header-bottom header-sticky" style="background-color:white;padding-bottom:0px;">
-                    <!-- Logo -->
-                    <div class="logo d-none d-lg-block">
-                        <a href="/"><img width="95" th:src="@{/assets/img/codeminiologo.png}" alt="" style="max-height:118px;max-width:118px;"></a>
-                    </div>
-                    <div class="container">
-                        <div class="menu-wrapper">
-                            <!-- Logo -->
-                            <div class="logo logo2 d-block d-lg-none">
-                                <a href="index.html"><img th:src="@{/assets/img/codeminiologo.png}" style="max-height:118px;max-width:118px;"
-                                 alt="Logo codeminio"></a>
-                            </div>
-                            <!-- Main-menu -->
-                            <div class="main-menu d-none d-lg-block" style="width:auto;">
-                                <nav>
-                                    <ul id="navigation">                                                                                          
-                                        <li style="padding-left:35px;margin-left:-8px;"><a href="/">Início</a></li>
-                                        <li><a href="#">Funcionário</a>
-                                        	<ul class="submenu">
-                                                <li><a th:href="@{/sistema/funcionario/form}">Cadastrar</a></li>
-                                                <li><a th:href="@{/sistema/funcionario/listar}">Listar</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="blog.html">Morador</a>
-                                        </li>
+    <div th:fragment="header">
+        <header>
+            <!-- Header Start -->
+            <div class="header-area">
+                <div class="main-header ">
+                    <div class="header-bottom header-sticky" style="background-color:white;padding-bottom:0px;">
+                        <!-- Logo -->
+                        <div class="logo d-none d-lg-block">
+                            <a href="/"><img width="95" th:src="@{/assets/img/codeminiologo.png}" alt=""
+                                    style="max-height:118px;max-width:118px;"></a>
+                        </div>
+                        <div class="container">
+                            <div class="menu-wrapper">
+                                <!-- Logo -->
+                                <div class="logo logo2 d-block d-lg-none">
+                                    <a href="index.html"><img th:src="@{/assets/img/codeminiologo.png}"
+                                            style="max-height:118px;max-width:118px;" alt="Logo codeminio"></a>
+                                </div>
+                                <!-- Main-menu -->
+                                <div class="main-menu d-none d-lg-block" style="width:auto;">
+                                    <nav>
+                                        <ul id="navigation">
+                                            <li style="padding-left:35px;margin-left:-8px;">
+                                                <a href="/sistema/index">Início</a>
+                                            </li>
+                                            <li><a href="#">Funcionário</a>
+                                                <ul class="submenu">
+                                                    <li><a th:href="@{/sistema/funcionario/form}">Cadastrar</a></li>
+                                                    <li><a th:href="@{/sistema/funcionario/listar}">Listar</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="blog.html">Morador</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Avisos</a>
+                                                <ul class="submenu">
+                                                    <li><a th:href="@{/sistema/aviso/create}">Criar Aviso</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <div class="main-menu d-none d-lg-block"
+                                    style="float:right;padding-left:0;padding-right:0">
+                                    <ul id="navigation">
+                                        <li style="float:right;padding-left:30px;margin-left:-7px;"><a
+                                                href="/logout">Sair</a></li>
                                     </ul>
-                                </nav>
+                                </div>
                             </div>
-                            <div  class="main-menu d-none d-lg-block" style="float:right;padding-left:0;padding-right:0">
-                             <ul id="navigation" >   
-                           	 <li style="float:right;padding-left:30px;margin-left:-7px;"><a href="/logout" >Sair</a></li>
-                            </ul>
+                            <!-- Mobile Menu -->
+                            <div class="col-12">
+                                <div class="mobile_menu d-block d-lg-none"></div>
+                            </div>
+
+                            <div id="back-top">
+                                <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
                             </div>
                         </div>
-                        <!-- Mobile Menu -->
-                        <div class="col-12">
-                            <div class="mobile_menu d-block d-lg-none"></div>
-                        </div>
-                        
-                        <div id="back-top" >
-					        <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
-					    </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Header End -->
-    </header>
-</div>
+            <!-- Header End -->
+        </header>
+    </div>
 </body>
+
 </html>

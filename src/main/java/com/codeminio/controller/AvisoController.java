@@ -1,85 +1,56 @@
 package com.codeminio.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import com.codeminio.dominio.Aviso;
+import com.codeminio.exceptions.RegraNegocioException;
 import com.codeminio.service.AvisoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-@RestController
+@Controller
+@RequestMapping("/sistema/aviso")
 public class AvisoController {
 
   @Autowired
-  private AvisoService service;
+  private AvisoService avisoService;
 
-  @GetMapping(value = "/aviso")
-  public ResponseEntity<List<Aviso>> index() {
+  @GetMapping(value = "/create")
+  public String create(Model model) {
 
-    List<Aviso> avisos = service.index();
+    Aviso aviso = new Aviso();
+    model.addAttribute("aviso", aviso);
 
-    return new ResponseEntity<List<Aviso>>(avisos, HttpStatus.OK);
+    return "aviso/create";
+
   }
 
-  @GetMapping(value = "/aviso/{idAviso}")
-  public ResponseEntity<Aviso> show(@PathVariable(value = "idAviso") Integer idAviso) {
+  @PostMapping
+  public String store(Principal principal, Model model, Aviso aviso) {
 
-    Aviso aviso = service.show(idAviso);
+    try {
 
-    return new ResponseEntity<Aviso>(aviso, HttpStatus.OK);
-  }
+      String username = principal.getName();
 
-  @GetMapping(value = "/funcionario/{idFuncionario}/aviso")
-  public ResponseEntity<List<Aviso>> index(@PathVariable(value = "idFuncionario") Integer idFuncionario) {
+      avisoService.store(username, aviso);
 
-    List<Aviso> avisos = service.index(idFuncionario);
+      return "redirect:index";
 
-    return new ResponseEntity<List<Aviso>>(avisos, HttpStatus.OK);
-  }
+    } catch (RegraNegocioException e) {
 
-  @GetMapping(value = "/funcionario/{idFuncionario}/aviso/{idAviso}")
-  public ResponseEntity<Aviso> show(@PathVariable(value = "idFuncionario") Integer idFuncionario,
-      @PathVariable(value = "idAviso") Integer idAviso) {
+      List<String> errors = e.getErrorList();
+      model.addAttribute("errors", errors);
 
-    Aviso aviso = service.show(idFuncionario, idAviso);
+      return "aviso/create";
 
-    return new ResponseEntity<Aviso>(aviso, HttpStatus.OK);
-  }
+    }
 
-  @PostMapping(value = "/funcionario/{idFuncionario}/aviso")
-  public ResponseEntity<Aviso> store(@PathVariable(value = "idFuncionario") Integer idFuncionario,
-      @RequestBody Aviso aviso) {
-
-    Aviso novoAviso = service.store(idFuncionario, aviso);
-
-    return new ResponseEntity<Aviso>(novoAviso, HttpStatus.CREATED);
-  }
-
-  @PutMapping(value = "/funcionario/{idFuncionario}/aviso/{idAviso}")
-  public ResponseEntity<Aviso> update(@PathVariable(value = "idFuncionario") Integer idFuncionario,
-      @PathVariable(value = "idAviso") Integer idAviso, @RequestBody Aviso aviso) {
-
-    Aviso novoAviso = service.update(idFuncionario, idAviso, aviso);
-
-    return new ResponseEntity<Aviso>(novoAviso, HttpStatus.OK);
-  }
-
-  @DeleteMapping(value = "/funcionario/{idFuncionario}/aviso/{idAviso}")
-  public ResponseEntity<String> delete(@PathVariable(value = "idFuncionario") Integer idFuncionario,
-      @PathVariable(value = "idAviso") Integer idAviso) {
-
-    service.delete(idFuncionario, idAviso);
-
-    return new ResponseEntity<String>("Aviso excluído com sucesso", HttpStatus.OK);
   }
 
 }
