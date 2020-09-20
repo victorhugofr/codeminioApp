@@ -21,16 +21,20 @@ public class Visita extends AuditedEntity {
 	@SequenceGenerator(name = "SEQ_VISITA", sequenceName = "id_seq_visita", allocationSize = 1)
 	private Integer id;
 	
+	@Column
 	private String nome;
 	
+	@Column
 	private Boolean ativo;
 	
+	@Column
 	private String cpf;
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataCriacao;
+//	@Temporal(TemporalType.TIMESTAMP)
+//	private Date dataCriacao;
 	
-	private String apartamento;
+	
+//	private String apartamento;
 
 	public Integer getId() {
 		return id;
@@ -56,21 +60,21 @@ public class Visita extends AuditedEntity {
 		this.cpf = cpf;
 	}
 
-	public Date getDataCriacao() {
-		return dataCriacao;
-	}
-
-	public void setDataCriacao(Date dataCriacao) {
-		this.dataCriacao = dataCriacao;
-	}
-	
-	public String getApartamento() {
-		return apartamento;
-	}
-
-	public void setApartamento(String apartamento) {
-		this.apartamento = apartamento;
-	}
+//	public Date getDataCriacao() {
+//		return dataCriacao;
+//	}
+//
+//	public void setDataCriacao(Date dataCriacao) {
+//		this.dataCriacao = dataCriacao;
+//	}
+//	
+//	public String getApartamento() {
+//		return apartamento;
+//	}
+//
+//	public void setApartamento(String apartamento) {
+//		this.apartamento = apartamento;
+//	}
 	
 	public Boolean getAtivo() {
 		return ativo;

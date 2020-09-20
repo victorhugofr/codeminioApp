@@ -2,6 +2,7 @@ package com.codeminio.controller;
 import java.security.Principal;
 import java.util.List;
 
+import com.codeminio.dominio.Funcionario;
 import com.codeminio.dominio.Visita;
 import com.codeminio.exceptions.RegraNegocioException;
 import com.codeminio.service.VisitaService;
@@ -23,10 +24,21 @@ public class VisitaController {
 	@GetMapping(value = "/create")
 	public String create(Model model) {
 
-    Visita visita = new Visita();
-    model.addAttribute("visita", visita);
+	    Visita visita = new Visita();
+	    model.addAttribute("visita", visita);
+	
+	    return "morador/visitantes";
 
-    return "visita/portaria";
+	}
+	
+	@GetMapping(value = "/portaria")
+	public String index(Model model) {
+
+		// Lista de visitas
+		List<Visita> visitas = visitaService.index();
+	    model.addAttribute("visitasLista", visitas);
+	
+	    return "funcionario/portaria";
 
 	}
 
@@ -46,7 +58,7 @@ public class VisitaController {
       List<String> errors = e.getErrorList();
       model.addAttribute("errors", errors);
 
-      return "aviso/create";
+      return "morador/visitantes";
 
     }
 
