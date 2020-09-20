@@ -25,4 +25,5 @@ public class RegraNegocioException extends RuntimeException {
 	public List<String> getErrorList() {
 		return errorList;
 	}
+
 }
