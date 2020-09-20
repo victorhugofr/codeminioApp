@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Cadastrar funcionário</title>
+	<link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/assets/menusistema.css}">
+	<script src="https://cdn.ckeditor.com/ckeditor5/22.0.0/classic/ckeditor.js"></script>
+</head>
+
+<body>
+	<header th:insert="fragments/menu.html :: header"></header>
+
+	<div class="container"
+		style="background-color: #f4f4f4;padding: 10px;border-radius: 10px;width: 70%;overflow: hidden; margin-top: 30px;">
+
+		<div th:each="error : ${errors}" class="alert alert-danger alert-dismissible fade show" role="alert">
+			<span th:text="${error}">Alerta</span>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+
+		<form th:action="@{/sistema/aviso}" method="post" th:object="${aviso}">
+			<div class="form-row">
+				<div class="form-group col-md-12">
+					<h3>Titulo do Aviso</h3>
+					<input name="nome" th:field="*{titulo}" class="form-control" th:value="*{titulo}">
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-12">
+					<h3>Texto do Aviso</h3>
+					<textarea id="editor" type="text" name="texto" th:field="*{texto}" class="form-control"
+						th:value="*{texto}"></textarea>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary float-right"
+				style="background-color:#2d9239;border-color:#2d9239">Cadastrar</button>
+		</form>
+	</div>
+	<script th:src="@{/assets/js/vendor/jquery-1.12.4.min.js}"></script>
+	<script th:src="@{/assets/js/popper.min.js}"></script>
+	<script th:src="@{/assets/js/bootstrap.min.js}"></script>
+	<script>
+		ClassicEditor
+			.create(document.querySelector('#editor'))
+			.catch(error => {
+				console.error(error);
+			});
+	</script>
+</body>
+
+</html>

@@ -1,13 +1,15 @@
 package com.codeminio.service.impl;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
 import com.codeminio.exceptions.RegraNegocioException;
 import com.codeminio.dominio.Aviso;
-import com.codeminio.dominio.Funcionario;
+import com.codeminio.dominio.Usuario;
 import com.codeminio.repository.AvisoRepository;
-import com.codeminio.repository.FuncionarioRepository;
+import com.codeminio.repository.UsuarioRepository;
 import com.codeminio.service.AvisoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,99 +22,46 @@ public class AvisoServiceImpl implements AvisoService {
   private AvisoRepository avisoRepository;
 
   @Autowired
-  private FuncionarioRepository funcionarioRepository;
+  private UsuarioRepository usuarioRepository;
 
   @Override
   public List<Aviso> index() {
+
     List<Aviso> avisos = avisoRepository.findAll();
 
+    avisos.sort(Comparator.comparing(Aviso::getDataCriacao).reversed());
+
     return avisos;
-  };
-
-  @Override
-  public Aviso show(Integer idAviso) {
-    Optional<Aviso> aviso = avisoRepository.findById(idAviso);
-
-    return aviso.orElseThrow(() -> new RegraNegocioException("Aviso " + idAviso + " não encontrado"));
-  }
-
-  @Override
-  public List<Aviso> index(Integer idFuncionario) {
-    Optional<Funcionario> funcionario = funcionarioRepository.findById(idFuncionario);
-
-    return funcionario.map(f -> {
-      return f.getAvisos();
-    }).orElseThrow(() -> new RegraNegocioException("Funcionario " + idFuncionario + " não encontrado"));
-  }
-
-  @Override
-  public Aviso show(Integer idFuncionario, Integer idAviso) {
-    Optional<Funcionario> funcionario = funcionarioRepository.findById(idFuncionario);
-
-    return funcionario.map(f -> {
-
-      Aviso aviso = f.getAviso(idAviso);
-
-      if (aviso == null) {
-        throw new RegraNegocioException("Aviso " + idAviso + " não encontrado");
-      }
-
-      return aviso;
-
-    }).orElseThrow(() -> new RegraNegocioException("Funcionario " + idFuncionario + " não encontrado"));
-
-  }
-
-  @Override
-  public Aviso store(Integer idFuncionario, Aviso aviso) {
-    Optional<Funcionario> funcionario = funcionarioRepository.findById(idFuncionario);
-
-    return funcionario.map(f -> {
-
-      aviso.setAutor(f);
-
-      return avisoRepository.save(aviso);
-
-    }).orElseThrow(() -> new RegraNegocioException("Funcionario " + idFuncionario + " não encontrado"));
 
   };
 
   @Override
-  public Aviso update(Integer idFuncionario, Integer idAviso, Aviso aviso) {
-    Optional<Funcionario> funcionario = funcionarioRepository.findById(idFuncionario);
+  public void store(String username, Aviso aviso) {
 
-    return funcionario.map(f -> {
-      Aviso novoAviso = f.getAviso(idAviso);
+    Optional<Usuario> usuario = usuarioRepository.findByLogin(username);
 
-      if (novoAviso == null) {
-        throw new RegraNegocioException("Aviso " + idAviso + " não encontrado");
-      }
+    List<String> errors = new ArrayList<String>();
 
-      novoAviso.setTexto(aviso.getTexto());
+    if (!usuario.isPresent()) {
+      errors.add("Usuário inexistente");
+    }
 
-      avisoRepository.save(novoAviso);
+    if (aviso.getTitulo().isEmpty()) {
+      errors.add("O titulo do aviso não pode estar vazio");
+    }
 
-      return novoAviso;
+    if (aviso.getTexto().isEmpty()) {
+      errors.add("O texto do aviso não pode estar vazio");
+    }
 
-    }).orElseThrow(() -> new RegraNegocioException("Funcionario " + idFuncionario + " não encontrado"));
+    if (!errors.isEmpty()) {
+      throw new RegraNegocioException(errors);
+    }
+
+    aviso.setAutor(usuario.get());
+
+    avisoRepository.save(aviso);
 
   };
-
-  @Override
-  public Aviso delete(Integer idFuncionario, Integer idAviso) {
-    Optional<Funcionario> funcionario = funcionarioRepository.findById(idFuncionario);
-
-    return funcionario.map(f -> {
-      Aviso aviso = f.getAviso(idAviso);
-
-      if (aviso == null) {
-        throw new RegraNegocioException("Aviso " + idAviso + " não encontrado");
-      }
-
-      avisoRepository.delete(aviso);
-
-      return aviso;
-
-    }).orElseThrow(() -> new RegraNegocioException("Funcionario " + idFuncionario + " não encontrado"));
-  };
+  
 }

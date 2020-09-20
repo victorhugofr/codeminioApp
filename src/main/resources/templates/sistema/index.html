@@ -1,23 +1,58 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
-<meta charset="UTF-8">
-<title>Codeminio</title>
-<link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
-<link rel="stylesheet" th:href="@{/assets/menusistema.css}">
-<style>
-body{
-background-color:#9df2a7;
-}
-</style>
+	<meta charset="UTF-8">
+	<title>Codeminio</title>
+	<link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/assets/menusistema.css}">
+	<style>
+		body {
+			background-color: #9df2a7;
+		}
+
+		.card {
+			margin-top: 30px;
+		}
+	</style>
 </head>
 
 <body>
-<header th:insert="fragments/menu.html :: header"> </header>
-	<div id="conteudo">
-	a
+	<header th:insert="fragments/menu.html :: header"> </header>
+	<div class="container">
+		<div th:each="aviso : ${avisos}" class="card text-center">
+			<div class="card-header">
+				<span th:text="${aviso.titulo}">Titulo</span>
+			</div>
+			<div class="card-body">
+				<div>
+					<th:block th:utext="${aviso.texto}">Texto</th:block>
+
+				</div>
+			</div>
+			<div class="card-footer text-muted">
+				<span th:text="${aviso.dataCriacao}">Data de Criação</span>
+			</div>
+		</div>
 	</div>
 </body>
-    
+
+<script>
+	const footer = [...document.getElementsByClassName('card-footer')];
+
+	footer.forEach(element => {
+		const actualDate = element.getElementsByTagName('span')[0].innerText;
+
+		const newDate = new Date(actualDate);
+
+		const formattedText = `Criado dia ${newDate.getDate()} do ` +
+			`${newDate.getMonth()} de ${newDate.getFullYear()} às ` +
+			`${newDate.getHours()}:${newDate.getMinutes().toLocaleString().length === 2 ? newDate.getMinutes() : '0' + newDate.getMinutes()}`;
+
+		element.getElementsByTagName('span')[0].innerHTML = formattedText;
+	});
+
+</script>
+
 </html>

@@ -17,7 +17,7 @@ public class RegraNegocioException extends RuntimeException {
 	public RegraNegocioException(ListaMensagens errors) {
 		this.errors = errors;
 	}
-	
+
 	public RegraNegocioException(List<String> errorList) {
 		this.errorList = errorList;
 	}
@@ -25,5 +25,5 @@ public class RegraNegocioException extends RuntimeException {
 	public List<String> getErrorList() {
 		return errorList;
 	}
-	
+
 }
