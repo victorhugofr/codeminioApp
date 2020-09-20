@@ -35,14 +35,16 @@
                                             <li style="padding-left:35px;margin-left:-8px;">
                                                 <a href="/sistema/index">Início</a>
                                             </li>
-                                            <li><a href="#">Funcionário</a>
-                                                <ul class="submenu">
-                                                    <li><a th:href="@{/sistema/funcionario/form}">Cadastrar</a></li>
-                                                    <li><a th:href="@{/sistema/funcionario/listar}">Listar</a></li>
-                                                </ul>
-                                            </li>
+                                        	<li><a href="#">Funcionário</a>
+                                        	<ul class="submenu">
+                                                <li><a th:href="@{/sistema/funcionario/form}">Cadastrar</a></li>
+                                                <li><a th:href="@{/sistema/funcionario/listar}">Listar</a></li>
+                                            </ul>
+                                      		 </li>
                                            <li><a href="blog.html">Morador</a>
                                             <ul class="submenu">
+                                            	  <li><a th:href="@{/sistema/morador/form}">Cadastrar</a></li>
+                                            	  <li><a th:href="@{/sistema/morador/listar}">Listar</a></li>
                                                   <li><a th:href="@{/sistema/visita/create}">Cadastrar Visitantes</a></li>
                                               </ul>
                                             </li>
@@ -52,6 +54,7 @@
                                                     <li><a th:href="@{/sistema/aviso/create}">Criar Aviso</a></li>
                                                 </ul>
                                             </li>
+                                            <li><a th:href="@{/sistema/visita/portaria}">Portaria</a></li>
                                         </ul>
                                     </nav>
                                 </div>

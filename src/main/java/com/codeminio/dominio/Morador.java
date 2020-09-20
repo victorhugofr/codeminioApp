@@ -13,7 +13,7 @@ public class Morador extends AuditedEntity{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MORADOR")
-	@SequenceGenerator(name = "SEQ_MORADOR", sequenceName = "sigsaude.id_seq_morador", allocationSize = 1)
+	@SequenceGenerator(name = "SEQ_MORADOR", sequenceName = "id_seq_morador", allocationSize = 1)
 	private Integer id;
 
 	private String apartamento;
@@ -22,6 +22,10 @@ public class Morador extends AuditedEntity{
 	@JoinColumn(name="id_usuario")
 	private Usuario usuario;
 
+	public Morador() {
+		this.usuario = new Usuario();
+	}
+	
 	public Integer getId() {
 		return id;
 	}
