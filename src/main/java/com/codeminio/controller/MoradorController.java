@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,13 +16,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
-import com.codeminio.exceptions.ErroAutenticacao;
-import com.codeminio.exceptions.RegraNegocioException;
-import com.codeminio.dominio.Funcionario;
 import com.codeminio.dominio.Morador;
-import com.codeminio.dominio.Usuario;
+import com.codeminio.exceptions.RegraNegocioException;
 import com.codeminio.service.impl.MoradorServiceImpl;
 
 @Controller /* Arquitetura REST */
@@ -31,41 +31,32 @@ public class MoradorController {
 	@Autowired
 	private MoradorServiceImpl service;
 
-	@PostMapping("/autenticar")
-	public ResponseEntity autenticar(@RequestBody Morador morador) {
-		try {
-			Morador moradorAutenticado = service.autenticar(morador.getUsuario().getLogin(), morador.getUsuario().getSenha());
-			return ResponseEntity.ok(moradorAutenticado);
-		} catch (ErroAutenticacao e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
-	}
-
-	/* Servico RESTful */
-	@GetMapping(value = "/listar", produces = "application/json")
-	public ResponseEntity<List<Morador>> index() {
-
+	@GetMapping(value = "/listar")
+	public String index(Model model) {
 		List<Morador> moradores = service.listarMoradores();
-
-		return new ResponseEntity<List<Morador>>(moradores, HttpStatus.OK);
+		model.addAttribute("moradorLista", moradores);
+		return "morador/listar";
 
 	}
 
-	@PostMapping("/salvar")
-	public ResponseEntity cadastrar(@RequestBody Morador Morador) {
-		try {
-			Morador moradorSalvo = service.salvarMorador(Morador);
-			return new ResponseEntity(moradorSalvo, HttpStatus.CREATED);
-		} catch (RegraNegocioException e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+	@GetMapping(value = "/form")
+	public String cadastrar(Model modelo) {
+		Morador novoMorador = new Morador();
+		modelo.addAttribute("morador",novoMorador);
+		return "morador/cadastrar";
 	}
 	
-	@GetMapping(value = "/form")
-	public String cadastrarVisitas(Model modelo) {
-		Morador novaVisita = new Morador();
-		modelo.addAttribute("visita",novaVisita);
-		return "morador/visitantes";
+	@PostMapping("/salvar")
+	public ModelAndView cadastrar(Morador morador,  BindingResult br, RedirectAttributes ra) {
+		ModelAndView modelAndView = null;
+		try {
+			service.salvarMorador(morador);
+			modelAndView = new ModelAndView(new RedirectView("index", true));
+		} catch (RegraNegocioException e) {
+			return modelAndView;
+		}
+		modelAndView = new ModelAndView(new RedirectView("/sistema/index", true));
+		return modelAndView;
 	}
 
 	@GetMapping(value = "/{id}", produces = "application/json")
@@ -80,17 +71,17 @@ public class MoradorController {
 	public ResponseEntity<Morador> atualizar(@PathVariable(value = "id") Integer id, @RequestBody Morador morador) {
 
 		Optional<Morador> antigoMorador = service.procurarPorId(id);
-
-		antigoMorador.map((m) -> {
-			m.getUsuario().setEmail(morador.getUsuario().getEmail());
-			m.getUsuario().setNome(morador.getUsuario().getNome());
-			m.getUsuario().setSenha(morador.getUsuario().getSenha());
-			m.getUsuario().setLogin(morador.getUsuario().getLogin());
-			m.getUsuario().setCPF(morador.getUsuario().getCPF());
-			m.getUsuario().setTelefone(morador.getUsuario().getTelefone());
-			m.setApartamento(morador.getApartamento());
-			return service.salvarMorador(m);
-		});
+//
+//		antigoMorador.map((m) -> {
+//			m.getUsuario().setEmail(morador.getUsuario().getEmail());
+//			m.getUsuario().setNome(morador.getUsuario().getNome());
+//			m.getUsuario().setSenha(morador.getUsuario().getSenha());
+//			m.getUsuario().setLogin(morador.getUsuario().getLogin());
+//			m.getUsuario().setCPF(morador.getUsuario().getCPF());
+//			m.getUsuario().setTelefone(morador.getUsuario().getTelefone());
+//			m.setApartamento(morador.getApartamento());
+//			return service.salvarMorador(m);
+//		});
 
 		return new ResponseEntity<Morador>(antigoMorador.get(), HttpStatus.OK);
 	}
