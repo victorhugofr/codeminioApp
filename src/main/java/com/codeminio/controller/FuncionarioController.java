@@ -42,12 +42,10 @@ public class FuncionarioController {
 
 
 	@GetMapping(value = "/listar")
-	public String index(Model model) {
-
+	public String listar(Model model) {
 		List<Funcionario> funcionarios = service.listarFuncionarios();
 		model.addAttribute("funcionarioLista", funcionarios);
 		return "funcionario/listar";
-
 	}
 
 	@PostMapping("/salvar")
