@@ -9,7 +9,9 @@ import com.codeminio.dominio.Reserva;
 import com.codeminio.dominio.Usuario;
 import com.codeminio.dominio.Visita;
 import com.codeminio.exceptions.RegraNegocioException;
+import com.codeminio.repository.ReservaRepository;
 import com.codeminio.repository.UsuarioRepository;
+import com.codeminio.repository.VisitaRepository;
 import com.codeminio.service.ReservaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,12 @@ public class ReservaServiceImpl implements ReservaService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private ReservaRepository reservaRepository;
+
+    @Autowired
+    private VisitaRepository visitaRepository;
+
     @Override
     public void store(String username, Reserva reserva) {
 
@@ -28,13 +36,8 @@ public class ReservaServiceImpl implements ReservaService {
 
         List<String> errors = new ArrayList<String>();
 
-        System.out.println(reserva.getNomeDaArea());
-        System.out.println(reserva.getData());
-
-        for (Visita visita : reserva.getVisitantes()) {
-            System.out.println(visita.getNome());
-            System.out.println(visita.getCpf());
-        }
+        List<Visita> visitantes = new ArrayList<Visita>(reserva.getVisitantes());
+        reserva.getVisitantes().clear();
 
         if (!usuario.isPresent()) {
             errors.add("Usuário inexistente");
@@ -47,17 +50,40 @@ public class ReservaServiceImpl implements ReservaService {
         }
 
         boolean flag = false;
-        for (Visita visita : reserva.getVisitantes()) {
+        for (Visita visita : visitantes) {
             if ((visita.getNome().isEmpty() || visita.getCpf().isEmpty()) && flag == false) {
                 errors.add("Por favor preencha todos os campos dos usuários");
                 flag = true;
             }
         }
-
+        
         if (!errors.isEmpty()) {
             throw new RegraNegocioException(errors);
         }
 
+        List<Visita> listaVisitantes = new ArrayList<Visita>();
+
+        for (Visita visita : visitantes) {
+
+            Optional<Visita> visitanteAchado = visitaRepository.findByCpf(visita.getCpf());
+
+            if (!visitanteAchado.isPresent()) {
+                System.out.println("Teste");
+                visitaRepository.save(visita);
+                listaVisitantes.add(visita);
+            
+            } else {
+            
+                listaVisitantes.add(visitanteAchado.get());
+            
+            }
+        }
+
+        reserva.setVisitantes(listaVisitantes);
+
+        reserva.setUsuario(usuario.get());
+
+        reservaRepository.save(reserva);
     }
 
 }

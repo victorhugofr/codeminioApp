@@ -9,8 +9,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.UniqueConstraint;
 
 @Entity
 public class Reserva extends AuditedEntity {
@@ -25,8 +29,14 @@ public class Reserva extends AuditedEntity {
     @Column
     private LocalDate data;
 
-    @Column
+    @ManyToOne
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
+
     @OneToMany
+    @JoinTable(name = "reserva_visitantes", 
+        joinColumns = @JoinColumn(name = "reserva_id", referencedColumnName = "id"), 
+        inverseJoinColumns = @JoinColumn(name = "visitantes_id", referencedColumnName = "id"))
     private List<Visita> visitantes;
 
     public Integer getId() {
@@ -56,6 +66,14 @@ public class Reserva extends AuditedEntity {
         } catch (Exception e) {
             this.data = null;
         }
+    }
+
+    public Usuario getUsuario() {
+        return this.usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public List<Visita> getVisitantes() {
