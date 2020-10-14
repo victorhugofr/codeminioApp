@@ -1,9 +1,7 @@
 package com.codeminio.dominio;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -56,7 +54,7 @@ public class Reserva extends AuditedEntity {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             this.data = LocalDate.parse(data, formatter);
         } catch (Exception e) {
-            System.out.println(e);
+            this.data = null;
         }
     }
 

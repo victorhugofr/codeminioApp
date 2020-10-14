@@ -8,7 +8,7 @@
   <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
   <link rel="stylesheet" th:href="@{/assets/menusistema.css}">
   <style>
-    #botao{
+    #botao {
       background: #2d9239;
       border-radius: 50%;
       height: 50px;
@@ -25,38 +25,43 @@
   <div class="container"
     style="background-color: #f4f4f4;padding: 10px;border-radius: 10px;width: 70%;overflow: hidden; margin-top: 30px;">
 
-    <!-- <div th:each="error : ${errors}" class="alert alert-danger alert-dismissible fade show" role="alert">
-			<span th:text="${error}">Alerta</span>
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-		</div> -->
+    <div th:each="error : ${errors}" class="alert alert-danger alert-dismissible fade show" role="alert">
+      <span th:text="${error}">Alerta</span>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
 
     <form th:action="@{/sistema/reserva}" method="post" th:object="${reserva}">
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <h3>Área</h3>
-          <select class="form-control" th:field="*{nomeDaArea}">
-            <option th:value="Piscina">Piscina</option>
-            <option th:value="Churrasqueira">Churrasqueira</option>
-            <option th:value="'Área de lazer'">Área de Lazer</option>
-            <option th:value="'Salão de Festas'">Salão de Festas</option>
-          </select>
+      <div id="option-container">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <h3>Área</h3>
+            <select class="form-control" th:field="*{nomeDaArea}">
+              <option th:value="Piscina">Piscina</option>
+              <option th:value="Churrasqueira">Churrasqueira</option>
+              <option th:value="'Área de lazer'">Área de Lazer</option>
+              <option th:value="'Salão de Festas'">Salão de Festas</option>
+            </select>
+          </div>
+          <div class="form-group col-md-6">
+            <h3>Data</h3>
+            <!-- <input id="data" class="form-control" type="text" th:field="*{data}" maxlength="10"> -->
+            <input id="data" class="form-control" type="text" name="data" th:value="*{#temporals.format(data, 'dd/MM/yyyy')}" maxlength="10">
+          </div>
         </div>
-        <div class="form-group col-md-6">
-          <h3>Data</h3>
-          <input id="data" class="form-control" type="text" th:field="*{data}" maxlength="10">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <h3>CPF</h3>
-          <input id="data" class="form-control" type="text" th:field="*{visitantes[0].cpf}">
-        </div>
-        <div class="form-group col-md-6">
-          <h3>Nome</h3>
-          <input id="data" class="form-control" type="text" th:field="*{visitantes[0].nome}">
-        </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <h3>CPF</h3>
+              <input id="data" class="form-control" type="text" th:name="visitantes[0].cpf">
+            </div>
+            <div class="form-group col-md-6">
+              <h3>Nome</h3>
+              <input id="data" class="form-control" type="text" th:name="visitantes[0].nome">
+            </div>
+          </div>
+
       </div>
       <div class="form-row">
         <div class="form-group mx-auto">
@@ -72,6 +77,28 @@
   <script th:src="@{/assets/js/popper.min.js}"></script>
   <script th:src="@{/assets/js/bootstrap.min.js}"></script>
   <script>
+    const addButton = document.getElementById('botao');
+
+    let index = 1;
+
+    addButton.onclick = function (event) {
+      event.preventDefault();
+
+      const container = document.getElementById("option-container");
+
+      const row = document.querySelectorAll(".form-row")[1].cloneNode(true);
+
+      row.childNodes[1].childNodes[3].name = `visitantes[${index}].cpf`;
+      row.childNodes[1].childNodes[3].value = "";
+      row.childNodes[3].childNodes[3].name = `visitantes[${index}].nome`;
+      row.childNodes[3].childNodes[3].value = "";
+
+      index++;
+
+      container.append(row);
+    }
+
+
     var input = document.getElementById('data');
 
     var dateInputMask = function dateInputMask(elm) {
