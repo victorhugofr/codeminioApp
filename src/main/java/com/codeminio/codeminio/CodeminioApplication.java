@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.Ordered;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -39,4 +38,5 @@ public class CodeminioApplication implements WebMvcConfigurer{
 		registry.addResourceHandler("/img/**", "/css/**", "/js/**","/assets/**").addResourceLocations("classpath:/static/img/",
 				"classpath:/static/css/", "classpath:/static/js/","classpath:/static/assets/");
 	}
+
 }
