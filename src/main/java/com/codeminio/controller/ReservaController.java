@@ -22,6 +22,16 @@ public class ReservaController {
     @Autowired
     private ReservaService reservaService;
 
+    @GetMapping
+    public String index(Model model) {
+
+        List<Reserva> reservas = reservaService.index();
+
+        model.addAttribute("reservas", reservas);
+
+        return "reserva/index";
+    }
+
     @GetMapping(value = "/create")
     public String create(Model model) {
 
@@ -33,7 +43,6 @@ public class ReservaController {
 
     @PostMapping
     public String store(Principal principal, Model model, Reserva reserva) {
-        System.out.println(reserva.getData());
         try {
 
             String username = principal.getName();
