@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="ISO-8859-1">
+<title>Cadastrar documento</title>
+<link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/assets/menusistema.css}">
+</head>
+<body>
+<header th:insert="fragments/menu.html :: header"> </header>
+<div class="container" style="background-color: #f4f4f4;padding: 10px;border-radius: 10px;width: 70%;overflow: hidden;">
+	<form th:action="@{/sistema/documento/salvar}" method="post" th:object="${documento}" enctype="multipart/form-data">
+		<div class="form-row">
+			<div class="form-group col-md-12">
+			    <label>Nome do documento</label>
+				<input name="nome" th:field="*{nome}" class="form-control" th:value="*{nome}" >
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-group col-md-6">
+			    <label>Documento</label>
+				<input id="documento"
+						type="file"
+						class="form-control form-control-success" 	
+						th:value="*{documento}"  
+						th:field="*{documento}"
+				/>
+			</div>
+		</div>
+	  	<button type="submit" class="btn btn-primary float-right" style="background-color:#2d9239;border-color:#2d9239" >Cadastrar</button>
+	</form>
+</div>	
+<script>
+
+</script>
+</body>
+</html>
