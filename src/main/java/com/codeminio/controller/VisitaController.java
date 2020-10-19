@@ -2,7 +2,6 @@ package com.codeminio.controller;
 import java.security.Principal;
 import java.util.List;
 
-import com.codeminio.dominio.Funcionario;
 import com.codeminio.dominio.Visita;
 import com.codeminio.exceptions.RegraNegocioException;
 import com.codeminio.service.VisitaService;
