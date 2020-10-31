@@ -32,11 +32,25 @@
       </button>
     </div>
 
-    <form th:action="@{/sistema/enquete/create}" method="post" th:object="${enquete}">
+    <div th:if="${param.success}" class="alert alert-success alert-dismissible fade show" role="alert">
+      <span>Enquete criada com sucesso</span>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div th:each="error : ${errors}" class="alert alert-danger alert-dismissible fade show" role="alert">
+      <span th:text="${error}">Alerta</span>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <form th:action="@{/sistema/enquete/create}" method="post" th:object="${enqueteDTO}">
       <div class="form-row">
         <div class="form-group col-md-6">
-          <h3>Descrição</h3>
-          <input class="form-control" type="text" th:field="*{titulo}">
+          <h3>Título</h3>
+          <input class="form-control" type="text" name="titulo" th:value="*{titulo}">
         </div>
         <div class="form-group col-md-6">
           <h3>Data Limite</h3>

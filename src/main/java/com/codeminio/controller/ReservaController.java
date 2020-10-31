@@ -48,7 +48,7 @@ public class ReservaController {
             List<String> errors = e.getErrorList();
             model.addAttribute("errors", errors);
 
-            return "redirect:reserva/create";
+            return "reserva/create";
         }
     }
 }

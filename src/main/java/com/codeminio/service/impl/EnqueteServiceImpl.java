@@ -1,0 +1,94 @@
+package com.codeminio.service.impl;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import com.codeminio.dominio.Alternativa;
+import com.codeminio.dominio.Enquete;
+import com.codeminio.dominio.Usuario;
+import com.codeminio.dtos.EnqueteDTO;
+import com.codeminio.exceptions.RegraNegocioException;
+import com.codeminio.repository.AlternativaRepository;
+import com.codeminio.repository.EnqueteRepository;
+import com.codeminio.repository.UsuarioRepository;
+import com.codeminio.service.EnqueteService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class EnqueteServiceImpl implements EnqueteService {
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private EnqueteRepository enqueteRepository;
+
+    @Autowired
+    private AlternativaRepository alternativaRepository;
+
+    @Override
+    public void store(String username, EnqueteDTO enqueteDTO) {
+        Optional<Usuario> usuario = usuarioRepository.findByLogin(username);
+
+        List<String> errors = new ArrayList<String>();
+
+        if (!usuario.isPresent()) {
+            errors.add("Usuário inexistente");
+        }
+
+        if (enqueteDTO.getTitulo().isEmpty() || enqueteDTO.getTitulo().isBlank()) {
+            errors.add("Por favor preencha o título");
+        }
+
+        if (enqueteDTO.getDataLimite().isEmpty() || enqueteDTO.getTitulo().isBlank()) {
+            errors.add("Por favor preencha a data limite");
+        } else {
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                LocalDate dataLimite = LocalDate.parse(enqueteDTO.getDataLimite(), formatter);
+
+                if (LocalDate.now().isAfter(dataLimite)) {
+                    errors.add("A data não pode estar no passado");
+                }
+            } catch (Exception e) {
+                errors.add("Por favor insira uma data válida");
+            }
+        }
+
+        boolean flag = false;
+        for (String alternativa : enqueteDTO.getAlternativas()) {
+            if ((alternativa.isEmpty() || alternativa.isBlank()) && flag == false) {
+                errors.add("Por favor preencha todas as alternativas");
+                flag = true;
+            }
+        }
+
+        if (!errors.isEmpty()) {
+            throw new RegraNegocioException(errors);
+        }
+
+        // Transformar DTO em Entidade e salvar no banco
+        Enquete enquete = new Enquete();
+
+        enquete.setTitulo(enqueteDTO.getTitulo());
+        enquete.setDataLimite(LocalDate.parse(enqueteDTO.getDataLimite(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        enquete.setCriador(usuario.get());
+
+        enqueteRepository.save(enquete);
+
+        for (String alternativa : enqueteDTO.getAlternativas()) {
+            Alternativa a = new Alternativa();
+
+            a.setTitulo(alternativa);
+            a.setEnquete(enquete);
+
+            alternativaRepository.save(a);
+        }
+
+    }
+}

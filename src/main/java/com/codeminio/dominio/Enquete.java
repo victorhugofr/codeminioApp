@@ -1,6 +1,7 @@
 package com.codeminio.dominio;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -31,8 +32,12 @@ public class Enquete extends AuditedEntity {
     @JoinColumn(name = "id_usuario")
     private Usuario criador;
 
-    @OneToMany
+    @OneToMany(mappedBy = "enquete")
     private List<Alternativa> alternativas;
+
+    public Enquete() {
+        this.alternativas = new ArrayList<Alternativa>();
+    }
 
     public Integer getId() {
         return id;
@@ -72,5 +77,9 @@ public class Enquete extends AuditedEntity {
 
     public void setAlternativas(List<Alternativa> alternativas) {
         this.alternativas = alternativas;
+    }
+
+    public void setAlternativas(Alternativa alternativa) {
+        this.alternativas.add(alternativa);
     }
 }
