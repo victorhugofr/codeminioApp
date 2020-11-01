@@ -32,6 +32,32 @@ public class EnqueteServiceImpl implements EnqueteService {
     private AlternativaRepository alternativaRepository;
 
     @Override
+    public List<Enquete> index() {
+        List<Enquete> enquetes = enqueteRepository
+                .findByDataLimiteGreaterThanEqualOrderByDataLimiteDesc(LocalDate.now());
+
+        return enquetes;
+    }
+
+    @Override
+    public Enquete show(String username, int id) {
+        Optional<Usuario> usuario = usuarioRepository.findByLogin(username);
+        Optional<Enquete> enquete = enqueteRepository.findById(id);
+
+        List<String> errors = new ArrayList<String>();
+
+        if (!usuario.isPresent()) {
+            errors.add("Usuário inexistente");
+        }
+
+        if (!enquete.isPresent()) {
+            errors.add("Enquete inexistente");
+        }
+
+        return enquete.get();
+    }
+
+    @Override
     public void store(String username, EnqueteDTO enqueteDTO) {
         Optional<Usuario> usuario = usuarioRepository.findByLogin(username);
 
