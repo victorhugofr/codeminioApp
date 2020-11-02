@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Codeminio - Ofertar Vaga</title>
+	<link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/assets/menusistema.css}">
+</head>
+
+<body>
+	<header th:insert="fragments/menu.html :: header"> </header>
+	<div class="container"
+		style="background-color: #f4f4f4;padding: 10px;border-radius: 10px;width: 70%;overflow: hidden; margin-top: 30px;">
+
+		<div th:each="error : ${errors}" class="alert alert-danger alert-dismissible fade show" role="alert">
+			<span th:text="${error}">Alerta</span>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		
+		<div>
+			<h2>Classificados</h2>
+			<br>
+		</div>
+
+		<form th:action="@{/sistema/classificados}" method="post" th:object="${classificado}">
+			<div class="form-row">
+				<div class="form-group col-md-6">				
+					<h3>Apartamento</h3>
+					<input name="apartamento" th:field="*{apartamento}" class="form-control" th:value="*{apartamento}">
+				</div>
+				<div class="form-group col-md-6">
+					<h3>Categoria</h3>
+					<select class="form-control" th:field="*{categoria}">
+  						<option th:value="Culinária">Culinária</option>
+  						<option th:value="Serviços">Serviços</option>
+  						<option th:value="Estacionamento">Estacionamento</option>
+  						<option th:value="Imóveis">Imóveis</option>
+  						<option th:value="Outros">Outros</option>
+					</select>
+				</div>
+			</div>		
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<h3>Preço</h3>
+					<input name="preco" th:field="*{preco}" class="form-control" th:value="*{preco}">
+				</div>
+				<div class="form-group col-md-6">
+					<h3>Telefone</h3>
+					<input name="telefone" th:field="*{telefone}" class="form-control" th:value="*{telefone}">
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-12">
+					<h3>Informações</h3>
+					<textarea id="editor" type="text" name="texto" th:field="*{texto}" class="form-control"
+						th:value="*{texto}"></textarea>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary float-right"
+				style="background-color:#2d9239;border-color:#2d9239">Registrar</button>
+		</form>
+	</div>
+	<script th:src="@{/assets/js/vendor/jquery-1.12.4.min.js}"></script>
+	<script th:src="@{/assets/js/popper.min.js}"></script>
+	<script th:src="@{/assets/js/bootstrap.min.js}"></script>
+	<script>
+		ClassicEditor
+			.create(document.querySelector('#editor'))
+			.catch(error => {
+				console.error(error);
+			});
+	</script>
+</body>
+
+</html>

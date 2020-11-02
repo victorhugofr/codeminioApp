@@ -60,7 +60,7 @@ public class ReclamacaoController {
 	      List<String> errors = e.getErrorList();
 	      model.addAttribute("errors", errors);
 
-	      return "reclamacao/create";
+	      return "morador/reclamar";
 
 	    }
 

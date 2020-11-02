@@ -47,11 +47,11 @@ public class ReclamacaoServiceImpl implements ReclamacaoService {
 		  }
 
 		  if (reclamacao.getTitulo().isEmpty()) {
-			  errors.add("O titulo do aviso não pode estar vazio");
+			  errors.add("O motivo da reclamação não pode estar vazio");
 		  }
 
 		  if (reclamacao.getTexto().isEmpty()) {
-			  errors.add("O texto do aviso não pode estar vazio");
+			  errors.add("A descrição do problema não pode estar vazia");
 		  }
 
 		  if (!errors.isEmpty()) {
