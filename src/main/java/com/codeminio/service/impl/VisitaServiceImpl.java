@@ -43,11 +43,11 @@ public class VisitaServiceImpl implements VisitaService{
 		}
 		
 		if(visita.getNome().isEmpty()) {
-			errors.add("Nome não cadastrado");
+			errors.add("O nome não pode estar vazio");
 		}
 		
 		if(visita.getCpf().isEmpty()) {
-			errors.add("CPF não cadastrado");
+			errors.add("O CPF não pode estar vazio");
 		}
 		
 		if (!errors.isEmpty()) {
@@ -55,8 +55,6 @@ public class VisitaServiceImpl implements VisitaService{
 		}
 		
 		visita.setAtivo(true);
-		
-		// Método para coletar apartamentos
 		
 		visitaRepository.save(visita);
 		

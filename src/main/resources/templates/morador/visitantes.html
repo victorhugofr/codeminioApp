@@ -12,6 +12,14 @@
 
 
 <div class="container" style="background-color: #f4f4f4;padding: 10px;border-radius: 10px;width: 70%;overflow: hidden;">
+
+	<div th:each="error : ${errors}" class="alert alert-danger alert-dismissible fade show" role="alert">
+		<span th:text="${error}">Alerta</span>
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+
 	<h5>Dados do Visitante</h5>
 	<form th:action="@{/sistema/visita}" method="post" th:object="${visita}">
 		<div class="form-row">
