@@ -13,5 +13,7 @@ public interface EnqueteService {
 
     void update(String username, int idEnquete, int idAlternativa);
 
+    boolean checkIfVoted(String username, int idEnquete);
+
     void store(String username, EnqueteDTO enqueteDTO);
 }

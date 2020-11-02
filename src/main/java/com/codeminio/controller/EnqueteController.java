@@ -1,5 +1,6 @@
 package com.codeminio.controller;
 
+import com.codeminio.dominio.Alternativa;
 import com.codeminio.dominio.Enquete;
 import com.codeminio.dtos.EnqueteDTO;
 import com.codeminio.exceptions.RegraNegocioException;
@@ -7,6 +8,7 @@ import com.codeminio.service.EnqueteService;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,26 +34,48 @@ public class EnqueteController {
         return "enquete/index";
     }
 
-    // Validar parametros inválidos na url
     @GetMapping(value = "{id}")
     public String show(Principal principal, Model model, @PathVariable("id") int idEnquete) {
-        String username = principal.getName();
+        try {
+            String username = principal.getName();
 
-        Enquete enquete = enqueteService.show(username, idEnquete);
-        model.addAttribute("enquete", enquete);
+            Enquete enquete = enqueteService.show(username, idEnquete);
+            model.addAttribute("enquete", enquete);
 
-        return "enquete/show";
+            boolean voted = enqueteService.checkIfVoted(username, idEnquete);
+
+            if (voted) {
+                int numberOfVotes = 0;
+                for (Alternativa alternativa : enquete.getAlternativas()) {
+                    numberOfVotes = numberOfVotes + alternativa.getVotantes().size();
+                }
+
+                model.addAttribute("numberOfVotes", numberOfVotes);
+
+                return "enquete/results";
+            }
+
+            return "enquete/show";
+        } catch (RegraNegocioException e) {
+            List<String> errors = e.getErrorList();
+            model.addAttribute("errors", errors);
+
+            // Colocar mensagens de erros na tela
+            return "redirect:/sistema/enquete";
+        }
     }
 
     @PostMapping(value = "{id}")
-    public String update(Principal principal, Model model, @PathVariable("id") int idEnquete, int alternativa) {
+    public String update(Principal principal, Model model, @PathVariable("id") int idEnquete,
+            Optional<Integer> alternativa) {
         try {
-            System.out.println(idEnquete);
-            System.out.println(alternativa);
+            String username = principal.getName();
+            enqueteService.update(username, idEnquete, alternativa.get());
+
             return "redirect:";
         } catch (Exception e) {
 
-            return "enquete/show";
+            return "redirect:/sistema/enquete";
         }
     }
 

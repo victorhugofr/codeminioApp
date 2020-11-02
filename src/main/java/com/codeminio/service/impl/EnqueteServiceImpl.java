@@ -54,7 +54,56 @@ public class EnqueteServiceImpl implements EnqueteService {
             errors.add("Enquete inexistente");
         }
 
+        if (enquete.get().getDataLimite().isBefore(LocalDate.now())) {
+            errors.add("Enquete finalizada");
+        }
+
+        if (!errors.isEmpty()) {
+            throw new RegraNegocioException(errors);
+        }
+
         return enquete.get();
+    }
+
+    @Override
+    public void update(String username, int idEnquete, int idAlternativa) {
+        Optional<Usuario> usuario = usuarioRepository.findByLogin(username);
+        Optional<Enquete> enquete = enqueteRepository.findById(idEnquete);
+        Optional<Alternativa> alternativa = alternativaRepository.findById(idAlternativa);
+
+        List<String> errors = new ArrayList<String>();
+
+        if (!usuario.isPresent()) {
+            errors.add("Usuário inexistente");
+        }
+
+        if (!enquete.isPresent()) {
+            errors.add("Enquete inexistente");
+        }
+
+        if (!alternativa.isPresent()) {
+            errors.add("Alternativa inexistente");
+        }
+
+        System.out.println("asdf");
+        Alternativa updatedAlternativa = alternativa.get();
+        updatedAlternativa.setVotantes(usuario.get());
+
+        // Usuario usuario2 = usuarioRepository.findIfVoted(idEnquete, username);
+
+        // System.out.println(usuario2);
+
+        // alternativaRepository.save(updatedAlternativa);
+    }
+
+    @Override
+    public boolean checkIfVoted(String username, int idEnquete) {
+        Usuario usuario = usuarioRepository.findIfVoted(username, idEnquete);
+
+        if (usuario != null) {
+            return true;
+        }
+        return false;
     }
 
     @Override
