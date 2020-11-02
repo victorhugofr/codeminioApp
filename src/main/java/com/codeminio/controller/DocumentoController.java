@@ -20,7 +20,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.codeminio.dominio.Documento;
+import com.codeminio.dominio.Morador;
 import com.codeminio.exceptions.RegraNegocioException;
+import com.codeminio.service.MoradorService;
 import com.codeminio.service.impl.DocumentoServiceImpl;
 
 
@@ -30,6 +32,9 @@ public class DocumentoController {
 
 	@Autowired
 	private DocumentoServiceImpl service;
+	
+	@Autowired
+	private MoradorService moradorService;
 	
 	@PostMapping("/salvar")
 	public ModelAndView cadastrar(Documento documento,  BindingResult br, RedirectAttributes ra) {
@@ -47,7 +52,9 @@ public class DocumentoController {
 	@GetMapping(value = "/form")
 	public String cadastrar(Model modelo) {
 		Documento novoDocumento = new Documento();
+		List<Morador> moradores = moradorService.listarMoradores();
 		modelo.addAttribute("documento",novoDocumento);
+		modelo.addAttribute("moradores",moradores);
 		return "documentos/cadastrar";
 	}
 	

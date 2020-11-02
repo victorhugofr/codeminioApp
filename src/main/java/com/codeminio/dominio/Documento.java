@@ -7,7 +7,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 
@@ -27,6 +29,10 @@ public class Documento extends AuditedEntity{
 	private String arquivoBase64;
 	
 	private String extensao; //pdf,docx
+	
+	@ManyToOne
+	@JoinColumn(name="id_morador")
+	private Morador morador;
 
 	@Lob
 	@Basic(fetch=FetchType.LAZY)
@@ -81,6 +87,14 @@ public class Documento extends AuditedEntity{
 
 	public void setDocumento(MultipartFile documento) {
 		this.documento = documento;
+	}
+
+	public Morador getMorador() {
+		return morador;
+	}
+
+	public void setMorador(Morador morador) {
+		this.morador = morador;
 	}
 	
 }

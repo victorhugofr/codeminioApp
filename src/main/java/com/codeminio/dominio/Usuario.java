@@ -3,6 +3,7 @@ package com.codeminio.dominio;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -52,6 +53,14 @@ public class Usuario extends AuditedEntity implements UserDetails {
 									table="role")
 	) //cria tabela de acesso do usuario
 	private List<Role> roles;
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
 
 	public Integer getId() {
 		return id;

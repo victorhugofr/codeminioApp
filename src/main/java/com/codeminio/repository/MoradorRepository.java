@@ -13,7 +13,7 @@ public interface MoradorRepository extends GenericRepository<Morador> {
 	@Query(value = "SELECT u from Morador u ")
 	 Morador findByCpf(String cpf);
 	
-	@Query(value = "select u from Morador u ")
+	@Query(value = "select u from Morador u where u.usuario = (select a.id from Usuario a where a.login = ?1)")
 	 Optional<Morador> findByLogin(String login);
 	
 	@Query(value = "select u from Morador u ")

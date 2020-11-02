@@ -36,5 +36,9 @@ public class DocumentoServiceImpl implements DocumentoService{
 	public Optional<Documento> procurarPorId(Integer id) {
 		return repository.findById(id);
 	}
+	
+	public List<Documento> listarContasPorMorador(Integer idMorador){
+		return repository.listarContasPorMorador(idMorador);
+	}
 
 }
