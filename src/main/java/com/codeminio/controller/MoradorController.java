@@ -20,8 +20,11 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.codeminio.dominio.Documento;
 import com.codeminio.dominio.Morador;
 import com.codeminio.exceptions.RegraNegocioException;
+import com.codeminio.helper.UsuarioHelper;
+import com.codeminio.service.DocumentoService;
 import com.codeminio.service.impl.MoradorServiceImpl;
 
 @Controller /* Arquitetura REST */
@@ -30,9 +33,15 @@ public class MoradorController {
 
 	@Autowired
 	private MoradorServiceImpl service;
+	
+	@Autowired
+	private UsuarioHelper usuarioHelper;
+	
+	@Autowired
+	private DocumentoService documentoService;
 
 	@GetMapping(value = "/listar")
-	public String index(Model model) {
+	public String listar(Model model) {
 		List<Morador> moradores = service.listarMoradores();
 		model.addAttribute("moradorLista", moradores);
 		return "morador/listar";
@@ -91,5 +100,15 @@ public class MoradorController {
 		service.deletarPorId(id);
 
 		return "Morador deletado";
+	}
+	
+	@GetMapping(value = "/contas")
+	public String contas(Model model) {
+		String login= usuarioHelper.getUsuarioLogado().get().getLogin();
+		Optional<Morador> morador = service.procurarPorLogin(login);
+		List<Documento> contas = documentoService.listarContasPorMorador(morador.get().getId());
+		model.addAttribute("contas", contas);
+		return "morador/contas";
+
 	}
 }

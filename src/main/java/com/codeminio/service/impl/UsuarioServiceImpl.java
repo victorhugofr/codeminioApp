@@ -47,5 +47,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 			throw new RegraNegocioException("Já existe um usuário cadastrado com este login.");
 		}
 	}
+	
+	public Optional<Usuario> procurarPorLogin(String login) {
+		Optional<Usuario> usuario =repository.findByLogin(login);
+		return usuario;
+	}
 
 }

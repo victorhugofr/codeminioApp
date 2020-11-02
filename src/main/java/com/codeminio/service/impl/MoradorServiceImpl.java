@@ -1,13 +1,16 @@
 package com.codeminio.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codeminio.dominio.Morador;
+import com.codeminio.dominio.Role;
 import com.codeminio.exceptions.ErroAutenticacao;
 import com.codeminio.exceptions.RegraNegocioException;
 import com.codeminio.repository.MoradorRepository;
@@ -42,6 +45,15 @@ public class MoradorServiceImpl implements MoradorService {
 	@Override
 	@Transactional
 	public void salvarMorador(Morador morador) {
+		BCryptPasswordEncoder  encoder = new BCryptPasswordEncoder ();
+		morador.getUsuario().setSenha(encoder.encode(morador.getUsuario().getSenha()));
+		List<Role> roles = new ArrayList<Role>();
+		roles.add(new Role(2));
+		morador.getUsuario().setRoles(roles);
+		validarApartamento(morador.getApartamento());
+		validarNome(morador.getUsuario().getNome());
+		validarLogin(morador.getUsuario().getLogin());
+		validarCPF(morador.getUsuario().getCPF());
 		usuarioRepository.save(morador.getUsuario());
 		repository.save(morador);
 	}
