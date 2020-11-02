@@ -41,20 +41,13 @@ public class EnqueteServiceImpl implements EnqueteService {
 
     @Override
     public Enquete show(String username, int id) {
-        Optional<Usuario> usuario = usuarioRepository.findByLogin(username);
         Optional<Enquete> enquete = enqueteRepository.findById(id);
 
         List<String> errors = new ArrayList<String>();
 
-        if (!usuario.isPresent()) {
-            errors.add("Usuário inexistente");
-        }
-
         if (!enquete.isPresent()) {
             errors.add("Enquete inexistente");
-        }
-
-        if (enquete.get().getDataLimite().isBefore(LocalDate.now())) {
+        } else if (enquete.get().getDataLimite().isBefore(LocalDate.now())) {
             errors.add("Enquete finalizada");
         }
 
@@ -66,7 +59,7 @@ public class EnqueteServiceImpl implements EnqueteService {
     }
 
     @Override
-    public void update(String username, int idEnquete, int idAlternativa) {
+    public void update(String username, int idEnquete, Integer idAlternativa) {
         Optional<Usuario> usuario = usuarioRepository.findByLogin(username);
         Optional<Enquete> enquete = enqueteRepository.findById(idEnquete);
         Optional<Alternativa> alternativa = alternativaRepository.findById(idAlternativa);
@@ -83,17 +76,24 @@ public class EnqueteServiceImpl implements EnqueteService {
 
         if (!alternativa.isPresent()) {
             errors.add("Alternativa inexistente");
+        } else if (!enquete.get().getAlternativas().contains(alternativa.get())) {
+            errors.add("Alternativa inválida");
         }
 
-        System.out.println("asdf");
+        boolean voted = usuarioRepository.findIfVoted(username, idEnquete) == null ? false : true;
+
+        if (voted) {
+            errors.add("Você já votou nesta enquete");
+        }
+
+        if (!errors.isEmpty()) {
+            throw new RegraNegocioException(errors);
+        }
+
         Alternativa updatedAlternativa = alternativa.get();
         updatedAlternativa.setVotantes(usuario.get());
 
-        // Usuario usuario2 = usuarioRepository.findIfVoted(idEnquete, username);
-
-        // System.out.println(usuario2);
-
-        // alternativaRepository.save(updatedAlternativa);
+        alternativaRepository.save(updatedAlternativa);
     }
 
     @Override

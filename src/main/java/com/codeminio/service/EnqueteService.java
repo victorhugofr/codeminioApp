@@ -11,7 +11,7 @@ public interface EnqueteService {
 
     Enquete show(String username, int id);
 
-    void update(String username, int idEnquete, int idAlternativa);
+    void update(String username, int idEnquete, Integer idAlternativa);
 
     boolean checkIfVoted(String username, int idEnquete);
 

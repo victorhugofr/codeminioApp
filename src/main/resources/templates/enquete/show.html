@@ -14,7 +14,8 @@
   <div class="container"
     style="background-color: #f4f4f4;padding: 10px;border-radius: 10px;width: 70%;overflow: hidden;">
 
-    <div th:each="error:${errors}" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <div th:if="${param.errors}" th:each="error : ${param.errors}"
+      class="alert alert-danger alert-dismissible fade show" role="alert">
       <span th:text="${error}">Alerta</span>
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
@@ -43,6 +44,9 @@
     </form>
 
   </div>
+  <script th:src="@{/assets/js/vendor/jquery-1.12.4.min.js}"></script>
+  <script th:src="@{/assets/js/popper.min.js}"></script>
+  <script th:src="@{/assets/js/bootstrap.min.js}"></script>
 </body>
 
 </html>

@@ -46,10 +46,10 @@ public class EnqueteController {
 
             if (voted) {
                 int numberOfVotes = 0;
+
                 for (Alternativa alternativa : enquete.getAlternativas()) {
                     numberOfVotes = numberOfVotes + alternativa.getVotantes().size();
                 }
-
                 model.addAttribute("numberOfVotes", numberOfVotes);
 
                 return "enquete/results";
@@ -60,22 +60,23 @@ public class EnqueteController {
             List<String> errors = e.getErrorList();
             model.addAttribute("errors", errors);
 
-            // Colocar mensagens de erros na tela
             return "redirect:/sistema/enquete";
         }
     }
 
     @PostMapping(value = "{id}")
-    public String update(Principal principal, Model model, @PathVariable("id") int idEnquete,
-            Optional<Integer> alternativa) {
+    public String update(Principal principal, Model model, @PathVariable("id") int idEnquete, Integer alternativa) {
         try {
             String username = principal.getName();
-            enqueteService.update(username, idEnquete, alternativa.get());
+            enqueteService.update(username, idEnquete, alternativa);
+            model.addAttribute("success", true);
 
-            return "redirect:";
-        } catch (Exception e) {
+            return "redirect:/sistema/enquete/{id}";
+        } catch (RegraNegocioException e) {
+            List<String> errors = e.getErrorList();
+            model.addAttribute("errors", errors);
 
-            return "redirect:/sistema/enquete";
+            return "redirect:/sistema/enquete/{id}";
         }
     }
 
