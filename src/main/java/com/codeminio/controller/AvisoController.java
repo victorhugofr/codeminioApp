@@ -18,39 +18,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/sistema/aviso")
 public class AvisoController {
 
-  @Autowired
-  private AvisoService avisoService;
+    @Autowired
+    private AvisoService avisoService;
 
-  @GetMapping(value = "/create")
-  public String create(Model model) {
+    @GetMapping(value = "/create")
+    public String create(Model model) {
+        Aviso aviso = new Aviso();
+        model.addAttribute("aviso", aviso);
 
-    Aviso aviso = new Aviso();
-    model.addAttribute("aviso", aviso);
-
-    return "aviso/create";
-
-  }
-
-  @PostMapping
-  public String store(Principal principal, Model model, Aviso aviso) {
-
-    try {
-
-      String username = principal.getName();
-
-      avisoService.store(username, aviso);
-
-      return "redirect:index";
-
-    } catch (RegraNegocioException e) {
-
-      List<String> errors = e.getErrorList();
-      model.addAttribute("errors", errors);
-
-      return "aviso/create";
-
+        return "aviso/create";
     }
 
-  }
+    @PostMapping
+    public String store(Principal principal, Model model, Aviso aviso) {
+        try {
+            String username = principal.getName();
+            avisoService.store(username, aviso);
 
+            return "redirect:index";
+        } catch (RegraNegocioException e) {
+            List<String> errors = e.getErrorList();
+            model.addAttribute("errors", errors);
+
+            return "aviso/create";
+        }
+    }
 }
