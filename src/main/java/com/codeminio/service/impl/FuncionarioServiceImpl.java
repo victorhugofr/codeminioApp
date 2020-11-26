@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codeminio.exceptions.ErroAutenticacao;
-import com.codeminio.exceptions.RegraNegocioException;
 import com.codeminio.dominio.Funcionario;
 import com.codeminio.repository.FuncionarioRepository;
 import com.codeminio.repository.UsuarioRepository;
@@ -19,7 +18,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	
+
 	@Autowired
 	private FuncionarioRepository repository;
 
@@ -45,7 +44,6 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 		usuarioRepository.save(funcionario.getUsuario());
 		repository.save(funcionario);
 	}
-
 
 	public List<Funcionario> listarFuncionarios() {
 		return (List<Funcionario>) repository.findAll();
