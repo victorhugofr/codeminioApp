@@ -15,14 +15,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 @Entity
-public class Reserva extends AuditedEntity {
+public abstract class Reserva extends AuditedEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_AVISO")
     @SequenceGenerator(name = "SEQ_AVISO", sequenceName = "id_seq_aviso", allocationSize = 1)
     private Integer id;
 
-    @Column
-    private String nomeDaArea;
+//    @Column
+//    private String nomeDaArea;
 
     @Column
     private LocalDate data;
@@ -31,8 +31,8 @@ public class Reserva extends AuditedEntity {
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
-    @ManyToMany
-    private List<Visita> visitantes;
+//    @ManyToMany
+//    private List<Visita> visitantes;
 
     public Integer getId() {
         return id;
@@ -42,13 +42,13 @@ public class Reserva extends AuditedEntity {
         this.id = id;
     }
 
-    public String getNomeDaArea() {
-        return this.nomeDaArea;
-    }
-
-    public void setNomeDaArea(String nomeDaArea) {
-        this.nomeDaArea = nomeDaArea;
-    }
+//    public String getNomeDaArea() {
+//        return this.nomeDaArea;
+//    }
+//
+//    public void setNomeDaArea(String nomeDaArea) {
+//        this.nomeDaArea = nomeDaArea;
+//    }
 
     public LocalDate getData() {
         return this.data;
@@ -71,11 +71,11 @@ public class Reserva extends AuditedEntity {
         this.usuario = usuario;
     }
 
-    public List<Visita> getVisitantes() {
-        return this.visitantes;
-    }
-
-    public void setVisitantes(List<Visita> visitantes) {
-        this.visitantes = visitantes;
-    }
+//    public List<Visita> getVisitantes() {
+//        return this.visitantes;
+//    }
+//
+//    public void setVisitantes(List<Visita> visitantes) {
+//        this.visitantes = visitantes;
+//    }
 }

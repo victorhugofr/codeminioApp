@@ -15,7 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * Classe abstrada para as entidades do sistema.
+ * Classe abstrata para as entidades do sistema.
  * @author victor
  *
  */
