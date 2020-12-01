@@ -1,7 +1,11 @@
 package com.codeminio.controller;
 
+import com.codeminio.dominio.Area;
+import com.codeminio.dominio.Recurso;
 import com.codeminio.dominio.Reserva;
+import com.codeminio.dtos.ReservaCondominioDTO;
 import com.codeminio.exceptions.RegraNegocioException;
+import com.codeminio.service.RecursoService;
 import com.codeminio.service.ReservaService;
 import java.security.Principal;
 import java.util.List;
@@ -14,10 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/sistema/reserva")
-public class ReservaController {
+public class ReservaCondominioController {
 
     @Autowired
     private ReservaService reservaService;
+
+    @Autowired
+    private RecursoService recursoService;
 
     @GetMapping
     public String index(Model model) {
@@ -30,18 +37,22 @@ public class ReservaController {
 
     @GetMapping(value = "/create")
     public String create(Model model) {
-        Reserva reserva = new Reserva();
+        ReservaCondominioDTO reserva = new ReservaCondominioDTO();
+
+        List<Area> areas = (List<Area>) recursoService.listar();
+
         model.addAttribute("reserva", reserva);
+        model.addAttribute("areas", areas);
 
         return "reserva/create";
     }
 
     @PostMapping
-    public String store(Principal principal, Model model, Reserva reserva) {
+    public String store(Principal principal, Model model, ReservaCondominioDTO reservaCondominioDTO) {
         try {
             String username = principal.getName();
 
-            reservaService.store(username, reserva);
+            // reservaService.store(username, reservaCondominioDTO);
 
             return "redirect:reserva/create";
         } catch (RegraNegocioException e) {

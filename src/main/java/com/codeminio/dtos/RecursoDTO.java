@@ -1,5 +1,5 @@
 package com.codeminio.dtos;
 
-public class ReservaDTO {
+public class RecursoDTO {
 
 }

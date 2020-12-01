@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface ReservaRepository extends GenericRepository<Reserva> {
 
     List<Reserva> findAllByData(LocalDate data);
-    
-    boolean existsByDataAndNomeDaArea(LocalDate data, String nomeDaArea);
+
+    // boolean existsByDataAndNomeDaArea(LocalDate data, String nomeDaArea);
 
 }

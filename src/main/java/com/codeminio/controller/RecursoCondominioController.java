@@ -4,7 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 import com.codeminio.exceptions.RegraNegocioException;
-import com.codeminio.service.AreaService;
+import com.codeminio.service.RecursoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/sistema/area")
-public class AreaController {
+public class RecursoCondominioController {
+
     @Autowired
-    private AreaService areaService;
+    private RecursoService recursoService;
 
     @GetMapping(value = "/create")
     public String create(Model model) {
@@ -29,7 +30,7 @@ public class AreaController {
         try {
             String username = principal.getName();
 
-            areaService.cadastrarArea(username, nomeDaArea);
+            recursoService.cadastrar(username, nomeDaArea);
 
             return "redirect:area/create";
         } catch (RegraNegocioException e) {
