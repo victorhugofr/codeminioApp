@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.codeminio.dominio.Recurso;
 
-public interface RecursoService {
-    public List<Recurso> listar();
+public interface RecursoService<T extends Recurso> {
+    public List<T> listar();
 
     public void cadastrar(String username, String nomeDaArea);
 }

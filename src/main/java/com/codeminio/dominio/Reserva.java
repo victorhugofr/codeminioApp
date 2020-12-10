@@ -26,9 +26,9 @@ public abstract class Reserva extends AuditedEntity {
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
-    @ManyToOne
-    @JoinColumn(name = "id_recurso")
-    private Recurso recurso;
+    // @ManyToOne
+    // @JoinColumn(name = "id_recurso")
+    // private Recurso recurso;
 
     public Integer getId() {
         return id;
@@ -59,11 +59,11 @@ public abstract class Reserva extends AuditedEntity {
         this.usuario = usuario;
     }
 
-    public Recurso getRecurso() {
-        return this.recurso;
-    }
+    // public Recurso getRecurso() {
+    // return this.recurso;
+    // }
 
-    public void setRecurso(Recurso recurso) {
-        this.recurso = recurso;
-    }
+    // public void setRecurso(Recurso recurso) {
+    // this.recurso = recurso;
+    // }
 }

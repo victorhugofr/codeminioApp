@@ -16,15 +16,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public abstract class RecursoServiceImpl implements RecursoService {
+public abstract class RecursoServiceImpl<T extends Recurso> implements RecursoService<T> {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private RecursoRepository recursoRepository;
+    private RecursoRepository<T> recursoRepository;
 
-    public abstract List<Recurso> listar();
+    @Override
+    public List<T> listar() {
+        return recursoRepository.findAll();
+    }
 
     public abstract void cadastrar(String username, String nomeDaArea);
 }

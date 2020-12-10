@@ -3,6 +3,7 @@ package com.codeminio.controller;
 import java.security.Principal;
 import java.util.List;
 
+import com.codeminio.dominio.Area;
 import com.codeminio.exceptions.RegraNegocioException;
 import com.codeminio.service.RecursoService;
 
@@ -18,10 +19,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class RecursoCondominioController {
 
     @Autowired
-    private RecursoService recursoService;
+    private RecursoService<Area> recursoService;
 
     @GetMapping(value = "/create")
     public String create(Model model) {
+
+        List<Area> area = recursoService.listar();
+
+        System.out.println("teste");
+
+        for (Area area2 : area) {
+            System.out.println(area2.getNomeDaArea());
+        }
         return "area/create";
     }
 

@@ -25,11 +25,6 @@ public class RecursoCondominioServiceImpl extends RecursoServiceImpl {
     private RecursoRepository recursoRepository;
 
     @Override
-    public List<Recurso> listar() {
-        return recursoRepository.findAll();
-    }
-
-    @Override
     public void cadastrar(String username, String nomeDaArea) {
         // Optional<Usuario> usuario = usuarioRepository.findByLogin(username);
 
