@@ -1,5 +1,5 @@
 package com.codeminio.dtos;
 
-public class RecursoDTO {
+public abstract class RecursoDTO {
 
 }

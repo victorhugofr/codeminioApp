@@ -1,7 +1,9 @@
-package com.codeminio.dominio;
+package com.codeminio.extensions.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+
+import com.codeminio.dominio.Recurso;
 
 @Entity
 public class Area extends Recurso {

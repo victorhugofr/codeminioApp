@@ -1,15 +1,10 @@
-package com.codeminio.service.impl.Recurso;
+package com.codeminio.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import com.codeminio.dominio.Area;
 import com.codeminio.dominio.Recurso;
-import com.codeminio.dominio.Usuario;
-import com.codeminio.exceptions.RegraNegocioException;
+import com.codeminio.dtos.RecursoDTO;
 import com.codeminio.repository.RecursoRepository;
-import com.codeminio.repository.UsuarioRepository;
 import com.codeminio.service.RecursoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +14,6 @@ import org.springframework.stereotype.Service;
 public abstract class RecursoServiceImpl<T extends Recurso> implements RecursoService<T> {
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
     private RecursoRepository<T> recursoRepository;
 
     @Override
@@ -29,5 +21,5 @@ public abstract class RecursoServiceImpl<T extends Recurso> implements RecursoSe
         return recursoRepository.findAll();
     }
 
-    public abstract void cadastrar(String username, String nomeDaArea);
+    public abstract void cadastrar(String username, RecursoDTO recursoDTO);
 }

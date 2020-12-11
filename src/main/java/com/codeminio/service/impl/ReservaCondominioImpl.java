@@ -1,22 +1,12 @@
 package com.codeminio.service.impl;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.codeminio.dominio.Area;
 import com.codeminio.dominio.Reserva;
-import com.codeminio.dominio.ReservaCondominio;
-import com.codeminio.dominio.Usuario;
-import com.codeminio.dominio.Visita;
-import com.codeminio.exceptions.RegraNegocioException;
 import com.codeminio.repository.ReservaRepository;
 import com.codeminio.repository.UsuarioRepository;
 import com.codeminio.repository.VisitaRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ReservaCondominioImpl extends ReservaServiceImpl {

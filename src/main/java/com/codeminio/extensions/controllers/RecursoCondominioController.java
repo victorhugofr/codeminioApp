@@ -1,10 +1,11 @@
-package com.codeminio.controller;
+package com.codeminio.extensions.controllers;
 
 import java.security.Principal;
 import java.util.List;
 
-import com.codeminio.dominio.Area;
 import com.codeminio.exceptions.RegraNegocioException;
+import com.codeminio.extensions.dtos.RecursoCondominioDTO;
+import com.codeminio.extensions.models.Area;
 import com.codeminio.service.RecursoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,28 +25,24 @@ public class RecursoCondominioController {
     @GetMapping(value = "/create")
     public String create(Model model) {
 
-        List<Area> area = recursoService.listar();
+        RecursoCondominioDTO recursoCondominioDTO = new RecursoCondominioDTO();
+        model.addAttribute("recursoCondominioDTO", recursoCondominioDTO);
 
-        System.out.println("teste");
-
-        for (Area area2 : area) {
-            System.out.println(area2.getNomeDaArea());
-        }
         return "area/create";
     }
 
     @PostMapping
-    public String store(Principal principal, Model model, String nomeDaArea) {
+    public String store(Principal principal, Model model, RecursoCondominioDTO recursoCondominioDTO) {
         try {
             String username = principal.getName();
 
-            recursoService.cadastrar(username, nomeDaArea);
+            recursoService.cadastrar(username, recursoCondominioDTO);
 
             return "redirect:area/create";
         } catch (RegraNegocioException e) {
             List<String> errors = e.getErrorList();
 
-            model.addAttribute("nomeDaArea", nomeDaArea);
+            // model.addAttribute("nomeDaArea", nomeDaArea);
             model.addAttribute("errors", errors);
 
             return "area/create";
