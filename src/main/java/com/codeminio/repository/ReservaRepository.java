@@ -5,13 +5,13 @@ import java.util.List;
 
 import com.codeminio.dominio.Reserva;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ReservaRepository extends GenericRepository<Reserva> {
+public interface ReservaRepository<T extends Reserva> extends JpaRepository<T, Integer> {
 
-    List<Reserva> findAllByData(LocalDate data);
+    List<T> findAllByData(LocalDate data);
 
-    // boolean existsByDataAndNomeDaArea(LocalDate data, String nomeDaArea);
-
+    boolean existsByDataAndRecurso(LocalDate data, int idRecurso);
 }

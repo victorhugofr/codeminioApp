@@ -32,23 +32,21 @@
       </button>
     </div>
 
-    <form th:action="@{/sistema/reserva}" method="post" th:object="${reserva}">
+    <form th:action="@{/sistema/reserva}" method="post" th:object="${reservaCondominioDTO}">
       <div id="option-container">
 
         <div class="form-row">
           <div class="form-group col-md-6">
             <h3>Área</h3>
-            <!-- <select class="form-control" th:field="*{nomeDaArea}">
-              <option th:value="Piscina">Piscina</option>
-              <option th:value="Churrasqueira">Churrasqueira</option>
-              <option th:value="'Área de lazer'">Área de Lazer</option>
-              <option th:value="'Salão de Festas'">Salão de Festas</option>
-            </select> -->
+            <select class="form-control" th:field="*{idRecurso}">
+              <option th:each="area : ${areas}" th:value="${area.id}" th:text="${area.nomeDaArea}"></option>
+            </select>
           </div>
           <div class="form-group col-md-6">
             <h3>Data</h3>
             <!-- <input id="data" class="form-control" type="text" th:field="*{data}" maxlength="10"> -->
-            <input id="data" class="form-control" type="text" name="data" th:value="*{#conversions.convert(data,'String')}" maxlength="10">
+            <input id="data" class="form-control" type="text" name="data"
+              th:value="*{#conversions.convert(data,'String')}" maxlength="10">
           </div>
         </div>
 

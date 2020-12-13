@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.codeminio.dominio.Recurso;
 import com.codeminio.dominio.Usuario;
 import com.codeminio.dtos.RecursoDTO;
 import com.codeminio.exceptions.RegraNegocioException;
@@ -18,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RecursoCondominioServiceImpl<T extends Recurso> extends RecursoServiceImpl<T> {
+public class RecursoCondominioServiceImpl extends RecursoServiceImpl<Area> {
 
     @Autowired
     private UsuarioRepository usuarioRepository;

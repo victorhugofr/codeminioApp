@@ -1,15 +1,17 @@
-package com.codeminio.service.impl;
+package com.codeminio.extensions.services;
 
 import com.codeminio.dominio.Reserva;
+import com.codeminio.dtos.ReservaDTO;
 import com.codeminio.repository.ReservaRepository;
 import com.codeminio.repository.UsuarioRepository;
 import com.codeminio.repository.VisitaRepository;
+import com.codeminio.service.impl.ReservaServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ReservaCondominioImpl extends ReservaServiceImpl {
+public class ReservaCondominioImpl<T extends Reserva> extends ReservaServiceImpl<T> {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -21,7 +23,7 @@ public class ReservaCondominioImpl extends ReservaServiceImpl {
     private VisitaRepository visitaRepository;
 
     @Override
-    public void store(String username, Reserva reserva) {
+    public void cadastrar(String username, ReservaDTO reservaDTO) {
 
         // ReservaCondominio reservaCondominio = (ReservaCondominio) reserva;
 

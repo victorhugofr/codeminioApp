@@ -3,11 +3,11 @@ package com.codeminio.service;
 import java.util.List;
 
 import com.codeminio.dominio.Reserva;
+import com.codeminio.dtos.ReservaDTO;
 
-public interface ReservaService {
+public interface ReservaService<T extends Reserva> {
 
-    List<Reserva> index();
+    List<T> listar();
 
-    void store(String username, Reserva reserva);
-
+    void cadastrar(String username, ReservaDTO reserva);
 }

@@ -13,18 +13,18 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-@EntityScan(basePackages="com.codeminio.dominio")
-@EnableJpaRepositories(basePackages="com.codeminio.repository")
-@ComponentScan(basePackages = {"com.codeminio.*"})
+@EntityScan(basePackages = { "com.codeminio.dominio", "com.codeminio.extensions.models" })
+@EnableJpaRepositories(basePackages = "com.codeminio.repository")
+@ComponentScan(basePackages = { "com.codeminio.*" })
 @EnableTransactionManagement
 @EnableWebMvc
-public class CodeminioApplication implements WebMvcConfigurer{
+public class CodeminioApplication implements WebMvcConfigurer {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CodeminioApplication.class, args);
-//		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//		String result = encoder.encode("admin");
-//		System.out.println(result);
+		// BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		// String result = encoder.encode("admin");
+		// System.out.println(result);
 	}
 
 	@Override
@@ -32,11 +32,12 @@ public class CodeminioApplication implements WebMvcConfigurer{
 		reg.addViewController("/login").setViewName("/login");
 		reg.setOrder(Ordered.LOWEST_PRECEDENCE);
 	}
-	
+
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/img/**", "/css/**", "/js/**","/assets/**").addResourceLocations("classpath:/static/img/",
-				"classpath:/static/css/", "classpath:/static/js/","classpath:/static/assets/");
+		registry.addResourceHandler("/img/**", "/css/**", "/js/**", "/assets/**").addResourceLocations(
+				"classpath:/static/img/", "classpath:/static/css/", "classpath:/static/js/",
+				"classpath:/static/assets/");
 	}
 
 }

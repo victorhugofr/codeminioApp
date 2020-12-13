@@ -42,7 +42,6 @@ public class RecursoCondominioController {
         } catch (RegraNegocioException e) {
             List<String> errors = e.getErrorList();
 
-            // model.addAttribute("nomeDaArea", nomeDaArea);
             model.addAttribute("errors", errors);
 
             return "area/create";

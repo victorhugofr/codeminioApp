@@ -1,6 +1,6 @@
-package com.codeminio.dtos;
+package com.codeminio.extensions.dtos;
 
-public class VisitanteDTO {
+public class VisitanteCondominioDTO {
     private String cpf;
     private String nome;
 
