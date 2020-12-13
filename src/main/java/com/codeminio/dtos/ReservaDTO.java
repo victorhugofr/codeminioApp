@@ -2,7 +2,7 @@ package com.codeminio.dtos;
 
 public abstract class ReservaDTO {
     private String data;
-    private String idRecurso;
+    private int idRecurso;
 
     public void setData(String data) {
         this.data = data;
@@ -12,11 +12,11 @@ public abstract class ReservaDTO {
         return this.data;
     }
 
-    public void setIdRecurso(String idRecurso) {
+    public void setIdRecurso(int idRecurso) {
         this.idRecurso = idRecurso;
     }
 
-    public String getIdRecurso() {
+    public int getIdRecurso() {
         return this.idRecurso;
     }
 }

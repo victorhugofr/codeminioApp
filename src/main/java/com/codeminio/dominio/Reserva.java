@@ -1,18 +1,20 @@
 package com.codeminio.dominio;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Reserva extends AuditedEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_RESERVA")
@@ -42,13 +44,8 @@ public abstract class Reserva extends AuditedEntity {
         return this.data;
     }
 
-    public void setData(String data) {
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            this.data = LocalDate.parse(data, formatter);
-        } catch (Exception e) {
-            this.data = null;
-        }
+    public void setData(LocalDate data) {
+        this.data = data;
     }
 
     public Usuario getUsuario() {

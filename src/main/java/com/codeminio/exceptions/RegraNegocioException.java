@@ -13,7 +13,7 @@ public class RegraNegocioException extends RuntimeException {
 	public RegraNegocioException(String msg) {
 		super(msg);
 	}
-	
+
 	public RegraNegocioException(ListaMensagens errors) {
 		this.errors = errors;
 	}

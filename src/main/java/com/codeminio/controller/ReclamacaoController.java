@@ -3,9 +3,7 @@ package com.codeminio.controller;
 import java.security.Principal;
 import java.util.List;
 
-import com.codeminio.dominio.Aviso;
 import com.codeminio.dominio.Reclamacao;
-import com.codeminio.dominio.Visita;
 import com.codeminio.exceptions.RegraNegocioException;
 import com.codeminio.service.ReclamacaoService;
 
@@ -19,51 +17,51 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/sistema/reclamacao")
 public class ReclamacaoController {
-	
-	 @Autowired
-	  private ReclamacaoService reclamacaoService;
 
-	 @GetMapping(value = "/create")
-	 public String create(Model model) {
-	
-		 Reclamacao reclamacao = new Reclamacao();
-		 model.addAttribute("reclamacao", reclamacao);
-	
-		 return "morador/reclamar";
-	
-	 }
-	 
-	 @GetMapping(value = "/lista")
-	 public String index(Model model) {
+	@Autowired
+	private ReclamacaoService reclamacaoService;
 
-		 // Lista de visitas
-		 List<Reclamacao> reclamacoes = reclamacaoService.index();
-		 model.addAttribute("reclamacoesLista", reclamacoes);
-		
-		 return "funcionario/reclamacoes";
+	@GetMapping(value = "/create")
+	public String create(Model model) {
 
-	 }
-	 
-	 @PostMapping
-	  public String store(Principal principal, Model model, Reclamacao reclamacao) {
+		Reclamacao reclamacao = new Reclamacao();
+		model.addAttribute("reclamacao", reclamacao);
 
-	    try {
+		return "morador/reclamar";
 
-	      String username = principal.getName();
+	}
 
-	      reclamacaoService.store(username, reclamacao);
+	@GetMapping(value = "/lista")
+	public String index(Model model) {
 
-	      return "redirect:index";
+		// Lista de visitas
+		List<Reclamacao> reclamacoes = reclamacaoService.index();
+		model.addAttribute("reclamacoesLista", reclamacoes);
 
-	    } catch (RegraNegocioException e) {
+		return "funcionario/reclamacoes";
 
-	      List<String> errors = e.getErrorList();
-	      model.addAttribute("errors", errors);
+	}
 
-	      return "reclamacao/create";
+	@PostMapping
+	public String store(Principal principal, Model model, Reclamacao reclamacao) {
 
-	    }
+		try {
 
-	  }
+			String username = principal.getName();
+
+			reclamacaoService.store(username, reclamacao);
+
+			return "redirect:index";
+
+		} catch (RegraNegocioException e) {
+
+			List<String> errors = e.getErrorList();
+			model.addAttribute("errors", errors);
+
+			return "reclamacao/create";
+
+		}
+
+	}
 
 }

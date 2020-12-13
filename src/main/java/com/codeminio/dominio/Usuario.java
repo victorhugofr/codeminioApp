@@ -9,11 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.UniqueConstraint;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.UniqueConstraint;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,18 +38,17 @@ public class Usuario extends AuditedEntity implements UserDetails {
 	private String telefone;
 
 	private String codigoRecuperarSenha;
-	
+
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "usuario_role",
-			uniqueConstraints = @UniqueConstraint(columnNames = { "usuario_id", "role_id" }, name = "unique_role_user"),
-			joinColumns = @JoinColumn(name = "usuario_id",
-							referencedColumnName="id", 
-							table="usuario"),
-			
-			inverseJoinColumns = @JoinColumn(name = "role_id",
-									referencedColumnName = "id",
-									table="role")
-	) //cria tabela de acesso do usuario
+	@JoinTable(name = "usuario_role", uniqueConstraints = @UniqueConstraint(columnNames = { "usuario_id",
+			"role_id" }, name = "unique_role_user"), joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id", table = "usuario"),
+
+			inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id", table = "role")) // cria
+																												// tabela
+																												// de
+																												// acesso
+																												// do
+																												// usuario
 	private List<Role> roles;
 
 	public Integer getId() {

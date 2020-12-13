@@ -3,6 +3,11 @@ package com.codeminio.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.codeminio.dominio.Funcionario;
+import com.codeminio.exceptions.RegraNegocioException;
+import com.codeminio.helper.MensagemHelper;
+import com.codeminio.service.impl.FuncionarioServiceImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,19 +21,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
-
-import com.codeminio.dominio.Funcionario;
-import com.codeminio.exceptions.ErroAutenticacao;
-import com.codeminio.exceptions.RegraNegocioException;
-import com.codeminio.service.impl.FuncionarioServiceImpl;
-
-import com.codeminio.helper.MensagemHelper;
-import com.codeminio.enums.CodigoMensagem;
-
 
 @Controller /* Arquitetura REST */
 @RequestMapping("/sistema/funcionario")
@@ -36,10 +31,9 @@ public class FuncionarioController {
 
 	@Autowired
 	private FuncionarioServiceImpl service;
-	
+
 	@Autowired
 	protected MensagemHelper mensagemHelper;
-
 
 	@GetMapping(value = "/listar")
 	public String listar(Model model) {
@@ -49,7 +43,7 @@ public class FuncionarioController {
 	}
 
 	@PostMapping("/salvar")
-	public ModelAndView cadastrar(Funcionario Funcionario,  BindingResult br, RedirectAttributes ra) {
+	public ModelAndView cadastrar(Funcionario Funcionario, BindingResult br, RedirectAttributes ra) {
 		ModelAndView modelAndView = null;
 		try {
 			service.salvarFuncionario(Funcionario);
@@ -60,11 +54,11 @@ public class FuncionarioController {
 		modelAndView = new ModelAndView(new RedirectView("/sistema/index", true));
 		return modelAndView;
 	}
-	
+
 	@GetMapping(value = "/form")
 	public String cadastrar(Model modelo) {
 		Funcionario novoFuncionario = new Funcionario();
-		modelo.addAttribute("funcionario",novoFuncionario);
+		modelo.addAttribute("funcionario", novoFuncionario);
 		return "funcionario/cadastrar";
 	}
 

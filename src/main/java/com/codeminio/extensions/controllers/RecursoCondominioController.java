@@ -3,6 +3,7 @@ package com.codeminio.extensions.controllers;
 import java.security.Principal;
 import java.util.List;
 
+import com.codeminio.controller.RecursoController;
 import com.codeminio.exceptions.RegraNegocioException;
 import com.codeminio.extensions.dtos.RecursoCondominioDTO;
 import com.codeminio.extensions.models.Area;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/sistema/area")
-public class RecursoCondominioController {
+public class RecursoCondominioController extends RecursoController {
 
     @Autowired
     private RecursoService<Area> recursoService;
